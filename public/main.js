@@ -1,5 +1,6 @@
 $(document).ready(function() {
-
+    $("body").css({ "overflow": "hidden", 'position': 'fixed' });
+    document.body.addEventListener('touchmove', function(e) { e.preventDefault(); });
     if ($(window).width() <= 500) {
         $(".menu-big").hide();
         $(".menu-butt").show();
