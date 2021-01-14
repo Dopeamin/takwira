@@ -1,9 +1,16 @@
 $(document).ready(function() {
-    $(".firstel h1").hide(0);
-    $(".firstel p").hide(0);
-    $(".secondel h1").hide(0);;
-    $(".secondel p").hide(0);
-    $(".tak").hide(0);
+
+    if ($(window).width() <= 500) {
+        $(".menu-big").hide();
+        $(".menu-butt").show();
+    } else {
+        $(".firstel h1").hide(0);
+        $(".firstel p").hide(0);
+        $(".secondel h1").hide(0);
+        $(".secondel p").hide(0);
+        $(".tak").hide(0);
+    }
+
     setInterval(function() {
         if ($(window).width() <= 800) {
             $(".menu-big").hide();
