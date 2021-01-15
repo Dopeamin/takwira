@@ -15,7 +15,17 @@ class HomeController extends AbstractController
     {
         $page="Home";
         return $this->render('home/index.html.twig',[
-            'page'=>$page
+            'page'=>$page,'logo'=>'assets/logo3.svg'
+        ]);
+    }
+    /**
+     * @Route("/login", name="login")
+     */
+    public function login(): Response
+    {
+        $page="Login";
+        return $this->render('home/login.html.twig',[
+            'page'=>$page,'logo'=>'assets/logo.svg'
         ]);
     }
 }

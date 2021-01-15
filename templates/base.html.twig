@@ -10,15 +10,16 @@
         {% endblock %}
     </head>
     <body>
+        {% block header %}
         <header>
             <div class="header">
                 <div class="header-container">
-                    <img style="margin-left:30px;margin-top:10px;width:20%;min-width:200px;" src="assets/logo.svg"/>
+                    <img style="margin-left:30px;margin-top:10px;width:20%;min-width:200px;" src="{{  asset(logo)  }}"/>
                     <div class="menu-big">
                         <a href="#"><p>Home</p></a>
                         <a href="#"><p>About us</p></a>
                         <a href="#"><p>Contact Us</p></a>
-                        <a style="margin-right:0px;"href="#"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        <a style="margin-right:0px;"href="./login"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                     </div>
                     <img class="menu-butt" src="assets/menu.svg" style="width:30px"/>
                     <div class="menu-small">
@@ -26,20 +27,23 @@
                             <a href="#"><p>Home</p></a>
                             <a href="#"><p>About us</p></a>
                             <a href="#"><p>Contact Us</p></a>
-                            <a style="margin-top:10px;margin-left:-5px;display:inline-block"href="#"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                            <a style="margin-top:10px;margin-left:-5px;display:inline-block"href="./login"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                         </div>
                     </div>
                 </div>
             </div>   
         </header>
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="main.js"></script>
         {% endblock %}
-        <footer>
-            <img src="assets/logo2.svg" style="width:40px;position:relative;left:50%;transform:translateX(-50%);margin-bottom:20px">
-            <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved</p>
-        </footer>
+        {% block footer %}
+            <footer>
+                <img src="assets/logo2.svg" style="width:40px;position:relative;left:50%;transform:translateX(-50%);margin-bottom:20px">
+                <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved</p>
+            </footer>
+        {% endblock %}
     </body>
 </html>

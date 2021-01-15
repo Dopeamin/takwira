@@ -67,5 +67,5 @@
     <path id="Path_17" data-name="Path 17" d="M306.124,395.491l2.566.167-1.819,2.005.483,2.576-2.31-1.042-2.267,1.425.392-2.649-1.884-1.7,2.552-.6,1.1-2.473Z" transform="translate(-296.876 -379.566)" fill="#fff"/>
     <path id="Path_18" data-name="Path 18" d="M385.808,394.453l2.566.167-1.819,2.005.483,2.576-2.31-1.042-2.267,1.425.392-2.649-1.884-1.7,2.552-.6,1.1-2.473Z" transform="translate(-345.511 -378.933)" fill="#fff"/>
   </g>
-  <text id="TAKWIRA" transform="translate(229.432 50.019)" fill="#222222" font-size="54" font-family="Metropolis-Black, Metropolis" font-weight="800" letter-spacing="0.22em"><tspan x="-168.534" y="0">TAKWIRA</tspan></text>
+  <text id="TAKWIRA" transform="translate(229.432 50.019)" fill="#fff" font-size="54" font-family="Metropolis-Black, Metropolis" font-weight="800" letter-spacing="0.22em"><tspan x="-168.534" y="0">TAKWIRA</tspan></text>
 </svg>

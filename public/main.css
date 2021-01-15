@@ -17,6 +17,12 @@
 }
 
 @font-face {
+    font-family: 'Metropolis Black';
+    src: url('assets/fonts/Metropolis-Black.woff') format('woff'), /* Pretty Modern Browsers */
+    /* Legacy iOS */
+}
+
+@font-face {
     font-family: 'Bebas';
     src: url('assets/fonts/BebasNeue-Regular.woff') format('woff'), /* Pretty Modern Browsers */
     /* Legacy iOS */
@@ -37,9 +43,11 @@ header {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #11A770;
+    background-color: white;
+    border-bottom: 1px solid lightgrey;
     height: auto;
     width: 100%;
+    color: #222222;
 }
 
 .header {
@@ -66,7 +74,6 @@ header {
 
 .menu-big {
     font-family: 'Metropolis Regular', sans-serif;
-    color: white;
     font-size: 14px;
     padding: 10px;
     margin-top: 5px;
@@ -79,7 +86,7 @@ header {
 .menu-big a {
     text-align: left;
     text-decoration: none;
-    color: white;
+    color: inherit;
     margin-right: 80px;
 }
 
