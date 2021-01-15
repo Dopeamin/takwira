@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     {
         $page="Home";
         return $this->render('home/index.html.twig',[
-            'page'=>$page,'logo'=>'assets/logo3.svg'
+            'page'=>$page,'logo'=>'assets/logo3.svg','menu'=>'assets/menu.svg'
         ]);
     }
     /**
@@ -25,7 +25,7 @@ class HomeController extends AbstractController
     {
         $page="Log In";
         return $this->render('home/login.html.twig',[
-            'page'=>$page,'logo'=>'assets/logo.svg'
+            'page'=>$page,'logo'=>'assets/logo.svg','menu'=>'assets/menu2.svg'
         ]);
     }
     /**
@@ -35,7 +35,7 @@ class HomeController extends AbstractController
     {
         $page="Sign Up";
         return $this->render('home/register.html.twig',[
-            'page'=>$page,'logo'=>'assets/logo.svg'
+            'page'=>$page,'logo'=>'assets/logo.svg','menu'=>'assets/menu2.svg'
         ]);
     }
 }
