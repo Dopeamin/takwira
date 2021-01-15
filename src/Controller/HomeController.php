@@ -29,7 +29,7 @@ class HomeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/register", name="login")
+     * @Route("/register", name="register")
      */
     public function register(): Response
     {
