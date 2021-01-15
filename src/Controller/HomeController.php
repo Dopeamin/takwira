@@ -23,8 +23,18 @@ class HomeController extends AbstractController
      */
     public function login(): Response
     {
-        $page="Login";
+        $page="Log In";
         return $this->render('home/login.html.twig',[
+            'page'=>$page,'logo'=>'assets/logo.svg'
+        ]);
+    }
+    /**
+     * @Route("/register", name="login")
+     */
+    public function register(): Response
+    {
+        $page="Sign Up";
+        return $this->render('home/register.html.twig',[
             'page'=>$page,'logo'=>'assets/logo.svg'
         ]);
     }
