@@ -3,7 +3,107 @@
 {% block title %}
     {{page}}
 {% endblock %}
+{% block body %}
+    <style>
+        .log_container{
+            display:flex;
+            flex-wrap:wrap;
+            margin:auto;
+            max-width:1100px;
+            width:100%;
+            margin-top:100px;
+            text-align:center;
+        }
+        .log_svg img{
+            max-width:700px;
+            width:80%;
+            margin-right:-200px;
+            margin:auto;
+            margin-bottom:10px;
+        }
+        .log_svg a{
+            color:black;
+            font-family:'Metropolise Regular',sans-serif;
+            
+        }
+        .login{
+            
+            margin:auto;
+            text-align:left;
+        }
+        .login h1{
+            font-family:'Metropolis Black',sans-serif;
+            margin-bottom:60px;
+        }
+        .login input{
+            font-family:'Metropolis Regular',sans-serif;
+            border:0px;
+            border-bottom:1px solid #AFAAAA;
+            padding:10px;
+            margin-bottom:30px;
+            margin-left:-10px;
+            z-index:1;
+            padding-left:30px;
+            width:240px;
+        }
+        .login span img{
+            z-index:10;
+            width:15px;
+            position:relative;
+            left:12px;
+            top:5px;
+        }
+        .login input:focus{
+            outline:none;
+        }
+        .checkbox{
+            position:relative;
+            right:90px;
+            width:10px;
+        }
+        .login p{
+            position:relative;
+            bottom:43px;
+        }
+        .btn{
+            padding:20px;
+            padding-left:40px;
+            padding-right:40px;
+            border-radius:10px;
+            border:none;
+            background-color:#2BB07F;
+            font-family:'Metropolis',sans-serif;
+            color:white;
+            font-size:28px;
+        }
+        .btn:hover{
+            background:white;
+            color:black;
+            cursor:pointer;
+            border:1px solid black;
+        }
+    </style>
+    <div class="log_container">
+        
+        <div class="login">
+            <h1>
+                Sign Up
+            </h1>
+            <form>
+            <span><img src="assets/person.svg"/></span><input type="text" placeholder="Username"/></br>
+            <span><img src="assets/email.svg"/></span><input type="text" placeholder="Email"/></br>
+            <span><img src="assets/padlock.svg"/></span><input type="password" style="width:100px" placeholder="Password"/><span><img src="assets/padlock.svg"/></span><input style="width:100px" type="password" placeholder="Password"/></br>
+            <span><img src="assets/phone-call.svg"/></span><input type="text" placeholder="Phone"/></br>
+            <button value="Log In" class="btn">Sign Up</button>
+            </form>
+        </div>
+        <div class="log_svg">
+            <img src="assets/reg.svg"/></br>
+            <a href="./login">Already have an account ?<p></a>
+        </div>
+    </div>
 
+{% endblock %}
 {% block footer %}
 
 {% endblock %}
