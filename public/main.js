@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("body").css({ "overflow-x": "hidden"});
+    $("body").css({ "overflow-x": "hidden" });
     document.body.addEventListener('touchmove', function(e) { e.preventDefault(); });
     if ($(window).width() <= 500) {
         $(".menu-big").hide();
@@ -13,10 +13,12 @@ $(document).ready(function() {
     }
 
     setInterval(function() {
-        if ($(window).width() <= 800) {
+        if ($(window).width() <= 1000) {
+            $(".log_svg").hide();
             $(".menu-big").hide();
             $(".menu-butt").show();
         } else {
+            $(".log_svg").show();
             $(".menu-big").show();
             $(".menu-butt").hide();
         }
