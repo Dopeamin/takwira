@@ -1,9 +1,17 @@
 $(document).ready(function() {
     $("body").css({ "overflow-x": "hidden" });
     document.body.addEventListener('touchmove', function(e) { e.preventDefault(); });
-    if ($(window).width() <= 500) {
+    if ($(window).width() <= 1000) {
+        $(".log_svg").hide();
+    } else {
+
+        $(".log_svg").show();
+    }
+    if ($(window).width() <= 800) {
         $(".menu-big").hide();
         $(".menu-butt").show();
+
+
     } else {
         $(".firstel h1").hide(0);
         $(".firstel p").hide(0);
@@ -11,14 +19,23 @@ $(document).ready(function() {
         $(".secondel p").hide(0);
         $(".tak").hide(0);
     }
-
+    $("#exit").click(function() {
+        $(".menu-small").fadeOut(1000);
+    })
     setInterval(function() {
         if ($(window).width() <= 1000) {
             $(".log_svg").hide();
+        } else {
+
+            $(".log_svg").show();
+        }
+        if ($(window).width() <= 800) {
+
             $(".menu-big").hide();
             $(".menu-butt").show();
+
         } else {
-            $(".log_svg").show();
+
             $(".menu-big").show();
             $(".menu-butt").hide();
         }
