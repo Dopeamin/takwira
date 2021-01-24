@@ -3,6 +3,10 @@
     margin: 0px;
 }
 
+input:focus {
+    outline: none;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @font-face {
     font-family: 'Metropolis Regular';
@@ -288,6 +292,115 @@ header {
     display: flex;
     margin: auto;
     width: 80%;
+}
+
+.banner {
+    z-index: 0;
+    width: 100%;
+    height: 300px;
+    background-image: url('assets/banner.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.stad-container {
+    z-index: 100;
+    position: relative;
+    top: -100px;
+    width: 100%;
+    display: block;
+}
+
+.stad-cont {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.11);
+    padding: 20px;
+}
+
+.buttons a {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 20px;
+    color: #2B2B2B;
+    text-decoration: none;
+    font-family: 'Metropolis Regular', sans-serif;
+    padding-bottom: 15px;
+}
+
+.buttons a:hover {
+    color: #11A770;
+}
+
+.menus {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.toggle-menu {
+    padding: 10px;
+    display: inline-block;
+    font-family: 'Metropolis Regular', sans-serif;
+    border: 1px solid darkgrey;
+    color: darkgray;
+}
+
+.cities-menu {
+    display: inline-block;
+}
+
+.filters:hover {
+    cursor: pointer;
+}
+
+.toggle-menu p {
+    padding-right: 60px;
+    display: inline-block;
+}
+
+.toggle-menu:hover {
+    cursor: pointer;
+}
+
+.search {
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid darkgrey;
+    width: 60%;
+    position: relative;
+    top: 0px;
+}
+
+#dropdownmenu {
+    background-color: white;
+    border: 1px solid darkgrey;
+    width: 136px;
+    position: absolute;
+    display: none;
+    height: 100px;
+}
+
+.dropdownarrow {
+    display: inline;
+    width: 10px;
+}
+
+.dropdownarrow img {
+    width: inherit;
+}
+
+.active {
+    border-bottom: 2px solid #11A770;
+    color: #11A770 !important;
+}
+
+.stade {
+    width: 100%;
+    height: 200px;
+    border-bottom: 1px solid darkgray;
 }
 
 @keyframes float {

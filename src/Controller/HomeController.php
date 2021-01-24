@@ -38,4 +38,14 @@ class HomeController extends AbstractController
             'page'=>$page,'logo'=>'assets/logo.svg','menu'=>'assets/menu2.svg'
         ]);
     }
+    /**
+     * @Route("/stadiums", name="stadiums")
+     */
+    public function Stadiums(): Response
+    {
+        $page="Stadiums";
+        return $this->render('home/stadiums.html.twig',[
+            'page'=>$page,'logo'=>'assets/logo.svg','menu'=>'assets/menu2.svg'
+        ]);
+    }
 }

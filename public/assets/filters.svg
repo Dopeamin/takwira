@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120.422" height="28" viewBox="0 0 120.422 28">
+  <g id="Group_92" data-name="Group 92" transform="translate(-1709 -583)">
+    <g id="Group_91" data-name="Group 91" transform="translate(1593 93.345)">
+      <g id="filter" transform="translate(210.961 489.788)">
+        <path id="Path_243" data-name="Path 243" d="M214,239.056H198.833a3.128,3.128,0,0,0-5.932,0h-2.368a1,1,0,1,0,0,1.992H192.9a3.128,3.128,0,0,0,5.932,0H214a1,1,0,1,0,0-1.992Zm-18.135,2.133A1.138,1.138,0,1,1,197,240.052,1.139,1.139,0,0,1,195.867,241.19Z" transform="translate(-189.537 -236.923)" fill="#2bb07f"/>
+        <path id="Path_244" data-name="Path 244" d="M214,618.128h-2.368a3.128,3.128,0,0,0-5.932,0H190.533a1,1,0,1,0,0,1.992H205.7a3.128,3.128,0,0,0,5.932,0H214a1,1,0,1,0,0-1.992Zm-5.334,2.134a1.138,1.138,0,1,1,1.138-1.138A1.139,1.139,0,0,1,208.668,620.262Z" transform="translate(-189.538 -607.46)" fill="#2bb07f"/>
+        <path id="Path_245" data-name="Path 245" d="M214,997.2H203.1a3.128,3.128,0,0,0-5.932,0h-6.635a1,1,0,1,0,0,1.992h6.635a3.128,3.128,0,0,0,5.932,0H214a1,1,0,1,0,0-1.992Zm-13.868,2.134a1.138,1.138,0,1,1,1.138-1.138A1.139,1.139,0,0,1,200.134,999.333Z" transform="translate(-189.537 -977.998)" fill="#2bb07f"/>
+      </g>
+    </g>
+    <text id="Filters" transform="translate(1749 605)" fill="#6d6d6d" font-size="28" font-family="Metropolis-Bold, Metropolis" font-weight="700" letter-spacing="-0.04em"><tspan x="-39.746" y="0">Filters</tspan></text>
+  </g>
+</svg>

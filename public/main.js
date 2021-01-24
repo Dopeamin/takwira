@@ -3,9 +3,11 @@ $(document).ready(function() {
     document.body.addEventListener('touchmove', function(e) { e.preventDefault(); });
     if ($(window).width() <= 1000) {
         $(".log_svg").hide();
+        $(".btn2").show();
     } else {
 
         $(".log_svg").show();
+        $(".btn2").hide();
     }
     if ($(window).width() <= 800) {
         $(".menu-big").hide();
@@ -18,6 +20,7 @@ $(document).ready(function() {
         $(".secondel h1").hide(0);
         $(".secondel p").hide(0);
         $(".tak").hide(0);
+
     }
     $("#exit").click(function() {
         $(".menu-small").fadeOut(1000);
@@ -25,9 +28,11 @@ $(document).ready(function() {
     setInterval(function() {
         if ($(window).width() <= 1000) {
             $(".log_svg").hide();
+            $(".btn2").show();
         } else {
 
             $(".log_svg").show();
+            $(".btn2").hide();
         }
         if ($(window).width() <= 800) {
 
@@ -48,6 +53,18 @@ $(document).ready(function() {
             $(".menu-small").fadeOut(1000);
         }
     });
+    var toggled = 0;
+    $("#toggle").click(function() {
+        if (toggled == 0) {
+            $("#dropdownmenu").slideDown(500);
+            toggled = 1;
+        } else {
+            $("#dropdownmenu").slideUp(500);
+            toggled = 0;
+        }
+
+
+    })
     var k = 0;
     $(window).scroll(function() {
         var top_of_element = $(".first").offset().top;
