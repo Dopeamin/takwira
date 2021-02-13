@@ -3,24 +3,32 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="user-scalable=no,width=device-width, initial-scale=1.0">
-        <link rel="icon" href="assets/logo2.svg">
+        <link rel="icon" href="{{asset('assets/logo2.svg')}}">
         <title>{% block title %}Takwira{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="main.css">
-        {% endblock %}
+            <link rel="stylesheet" href="{{ asset( 'main.css' )}}">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+             {% endblock %}
+        <link rel="stylesheet" href="{{asset('vanilla-calendar-min.css')}}">
+        <link rel="stylesheet" href="{{asset('leaflet.css')}}">
+    <script src="{{asset('vanilla-calendar-min.js')}}"></script>
     </head>
     <body>
         {% block header %}
         <header>
             <div class="header">
                 <div class="header-container">
-                    <a href="./" style="margin:0px;padding:0px;"><img style="margin-left:10px;margin-top:10px;width:20%;min-width:200px;" src="{{  asset(logo)  }}"/></a>
+                    <a href="{{url('home')}}" style="margin:0px;padding:0px;width:400px"><img style="margin-left:10px;margin-top:10px;width:20%;min-width:150px;" src="{{  asset(logo)  }}"/></a>
                     <div class="menu-big">
-                        <a href="./"><p>Home</p></a>
-                        <a href="./stadiums"><p>Stadiums</p></a>
-                        <a href="#"><p>About us</p></a>
+                        <a href="{{url('home')}}"><p>Home</p></a>
+                        <a href="{{url('stadiums')}}"><p>Stadiums</p></a>
+                        <a href="{{url('home')}}#tak"><p>About us</p></a>
                         <a href="#"><p>Contact Us</p></a>
-                        <a style="margin-right:0px;"href="./login"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        {% if not app.user %}
+                        <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        {% else %}
+                        <a style="margin-right:0px;"href="{{path('profile',{id: app.user.id})}}"><p>{{ app.user.userName  }}</p></a>
+                        {% endif %}
                     </div>
                     <img class="menu-butt" src="{{  asset(menu)   }}" style="width:30px"/>
                     <div class="menu-small">
@@ -30,7 +38,11 @@
                             <a href="./stadiums"><p>Stadiums</p></a>
                             <a href="#"><p>About us</p></a>
                             <a href="#"><p>Contact Us</p></a>
-                            <a style="margin-top:10px;margin-left:-5px;display:inline-block"href="./login"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                            {% if not app.user %}
+                        <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        {% else %}
+                        <a style="margin-right:0px;"href="{{path('profile',{id: app.user.id})}}"><p>{{ app.user.userName  }}</p></a>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
@@ -40,12 +52,13 @@
         {% block body %}{% endblock %}
         {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="main.js"></script>
+        <script src="{{ asset( 'main.js' )}}"></script>
+        <script src="{{ asset( 'leaflet.js' )}}"></script>
         {% endblock %}
         {% block footer %}
             <footer>
-                <img src="assets/logo2.svg" style="width:40px;position:relative;left:50%;transform:translateX(-50%);margin-bottom:20px">
-                <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved</p>
+                
+                <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved - Developed By Med Amine Hamdouni</p>
             </footer>
         {% endblock %}
     </body>

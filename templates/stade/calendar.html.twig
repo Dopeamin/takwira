@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <style>
+        #calendar{
+            width:80% !important;
+            min-width:300px;
+            margin:auto;
+            height:700px;
+            font-family:'Metropolis',sans-serif;
+        }
+        #calendar button{
+            background-color:lightgreen;
+        }
+    </style>
+    {{dump(data)}}
+    <div id='calendar'></div>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:15:00",locale:'fr',timeZone:'Europe/paris',
+            events:{{data.date|raw}}
+        });
+        calendar.render();
+      });
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js" integrity="sha256-rPPF6R+AH/Gilj2aC00ZAuB2EKmnEjXlEWx5MkAp7bw=" crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

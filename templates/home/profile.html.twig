@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <style>
+    body{
+        background:#f7f7f7;
+    }
+        .cardd{
+            margin:auto;
+            width:300px;
+            text-align:center;
+            margin-top:100px;
+            margin-bottom:100px;
+            border-radius:2px;
+            padding:40px;
+            padding-bottom:0px;
+            background-color:white;
+            border:1px solid lightgrey;
+            font-family:'Metropolis',sans-serif;
+        }
+        .cardd a{
+            position:relative;
+            display:inline-block;
+            top:10px !important;
+            text-decoration:none;
+            color:white;
+        }
+        footer{
+            background-color:transparent;
+        }
+        .button{
+            width:360px;
+            border:1px solid #03EB8E;
+            margin:0px;
+            padding:10px;
+            position:absolute;
+            left:-41px;
+        }
+        .button:hover{
+            border:1px solid #03EB8E;
+        }
+        .cardd p{
+            font-family:"Metropolis Regular",sans-seirf;
+            margin-top:10px;
+            letter-spacing:2px;
+        }
+    </style>
+    <div class="cardd">
+        <h1 style="color:#03EB8E">Your Profile</h1></br>
+        <h3>Username : </h3><p>{{ app.user.userName  }}</p></br>
+        <h3>Email : </h3><p>{{ app.user.userEmail  }}</p></br>
+        <h3>Phone : </h3><p>{{ app.user.userPhone  }}</p></br>
+        <a class="button"href="{{path('update',{id:app.user.id})}}">Modify</a></br>
+        <a class="button"href="{{path('changePass',{id:app.user.id})}}">Change Password</a></br>
+        <a class="button"href="{{path('logout')}}">Logout</a></br>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a class="button"href="{{path('cpanel')}}">Controle Panel</a>
+        {% endif %}
+    </div>
+    
+{% endblock %}

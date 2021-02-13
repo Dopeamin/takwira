@@ -168,6 +168,14 @@ header {
     background-color: #03EB8E;
 }
 
+.butt a {
+    color: white;
+}
+
+.butt a:hover {
+    color: #11A770;
+}
+
 .card h2 {
     color: #656565;
 }
@@ -305,9 +313,9 @@ header {
 }
 
 .stad-container {
-    z-index: 100;
+    z-index: 1;
     position: relative;
-    top: -100px;
+    top: -50px;
     width: 100%;
     display: block;
 }
@@ -380,7 +388,7 @@ header {
     width: 136px;
     position: absolute;
     display: none;
-    height: 100px;
+    z-index: 100;
 }
 
 .dropdownarrow {
@@ -392,15 +400,79 @@ header {
     width: inherit;
 }
 
-.active {
+.pagination {
+    margin: auto;
+    width: 100px;
+}
+
+.pagination a {
+    text-decoration: none;
+    font: 'Open Sans', sans-serif;
+    color: darkgrey;
+}
+
+ul a {
+    text-decoration: none;
+    color: black;
+    font: 'Metropolis', sans-serif;
+}
+
+ul {
+    margin-bottom: 10px;
+}
+
+ul a:hover {
+    color: #03EB8E;
+    cursor: pointer;
+}
+
+li {
+    text-align: center;
+    text-decoration: none;
+    list-style: none;
+    margin-top: 5px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.activee {
     border-bottom: 2px solid #11A770;
     color: #11A770 !important;
+}
+
+#form_submit {
+    display: none;
 }
 
 .stade {
     width: 100%;
     height: 200px;
-    border-bottom: 1px solid darkgray;
+    margin-top: 50px;
+    margin-left: 40%;
+    transform: translateX(-35%);
+    display: inline-block;
+}
+
+.stade-content h1 {
+    display: inline-block;
+    font-size: 20px;
+    color: #C5C5C5;
+    margin-left: 10px;
+}
+
+.stade-content p {
+    margin-left: 4px;
+    display: inline-block;
+}
+
+.stade-content {
+    padding-top: 20px;
+    display: inline-block;
+    margin-top: 40px;
+    vertical-align: top;
+    transform: translateY(-60px);
+    left: 10px;
+    font-family: 'Metropolis Regular', sans-serif;
+    width: 40%;
 }
 
 @keyframes float {
@@ -412,5 +484,14 @@ header {
     }
     100% {
         transform: translateY(0px);
+    }
+}
+
+@keyframes slideleft {
+    0% {
+        width: 10px;
+    }
+    100% {
+        width: 50px;
     }
 }

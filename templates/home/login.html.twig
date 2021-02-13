@@ -99,6 +99,11 @@
             color:white;
         }
     </style>
+    {% if app.user %}
+    <script>
+        window.location.replace("http://www.w3schools.com");
+    </script>
+    {% endif %}
     <div class="log_container">
         <div class="log_svg">
             <img src="assets/log.svg"/></br>
@@ -108,13 +113,15 @@
             <h1>
                 Log In
             </h1>
-            <form>
-            <span><img src="assets/person.svg"/></span><input type="text" placeholder="Username"/></br>
-            <span><img src="assets/padlock.svg"/></span><input type="password" placeholder="Password"/></br>
-            <input type="checkbox" class="checkbox"/><p style="margin-left:40px;font-family:'Metropolis Regular',sans-serif">Remember me</p>
+            <form method="POST" action="{{path('login')}}">
+            
+            <span><img src="assets/person.svg"/></span><input required type="text" name="_username" placeholder="Username"/></br>
+            <span><img src="assets/padlock.svg"/></span><input required name ="_password" type="password" placeholder="Password"/></br>
+            <input type="checkbox" class="checkbox" id="remember_me" name="_remember_me" checked/><p style="margin-left:40px;font-family:'Metropolis Regular',sans-serif">Remember me</p>
             <button value="Log In" class="btn">Log In</button></br>
-            <button value="Log In" class="btn2">Sign Up</button>
+            
             </form>
+            <a href="{{absolute_url('register')}}"><button class="btn2">Sign Up</button></a>
         </div>
     </div>
 

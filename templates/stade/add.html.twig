@@ -1,0 +1,71 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <style>
+            .form_container{
+                display:inline-block;
+                margin:auto;
+                position:relative;
+                left:50%;
+                top:50%;
+                transform:translateX(-50%);
+                padding:20px;
+            }
+            .form_container input,textarea,button{
+                resize:none;
+                padding:10px;
+                margin-top:10px;
+                
+            }
+            input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{
+                -webkit-appearance: none;
+            }
+            .form_container button:hover{
+                cursor:pointer;
+            }
+            #maCarte{
+                height:500px;
+            }
+    </style>
+    {{ form_start(form) }}
+    <div class="form_container">
+        {{ form_errors(form) }}
+        {{ form_row(form.stadeName) }}
+        {{ form_row(form.stadeOwner) }}
+        {{ form_row(form.stadeDescription) }}
+        {{ form_row(form.stadePhone) }}
+        {{ form_row(form.stadeLocation) }}
+        {{ form_row(form.brochure) }}
+        {{ form_row(form.brochure2) }}
+        {{ form_row(form.brochure3) }}
+    </div>
+    <div id="maCarte">
+
+        </div>
+        {{ form_row(form.x) }}
+        {{ form_row(form.y) }}
+        {{ form_row(form.save) }}
+    {{ form_end(form) }}
+{% endblock %}
+{% block footer %}
+    <script>
+            var carte = L.map('maCarte').setView([36.8190, 10.1946], 13);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZG9wZWFtaW5lIiwiYSI6ImNrbDBxY3BqNDBxZGUyb21sb2Vmbmxmd3AifQ.pPfJhtdnuRWMHgw0K4Jrog', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'your.mapbox.access.token'
+            }).addTo(carte);
+            carte.on("click",mapClickListen);
+        var marker = L.marker([36.8190, 10.1946]).addTo(carte);
+        function mapClickListen(e){
+            let pos = e.latlng;
+            document.querySelector("#form_x").value=pos.lat;
+            document.querySelector("#form_y").value=pos.lng;
+            var newLatLng = new L.LatLng(pos.lat, pos.lng);
+            marker.setLatLng(newLatLng);
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    {{page}}
+{% endblock %}
+{% block body %}
+    <style>
+    body{
+        background:#f7f7f7;
+    }
+    footer{
+            background-color:transparent;
+        }
+        .cardd{
+            margin:auto;
+            
+            width:300px;
+            text-align:center;
+            margin-top:100px;
+            margin-bottom:100px;
+            border-radius:2px;
+            padding:40px;
+            background-color:white;
+            border:1px solid lightgrey;
+            font-family:'Metropolis',sans-serif;
+        }
+        .cardd a{
+            position:relative;
+            padding:10px;
+            display:inline-block;
+            top:10px !important;
+            text-decoration:none;
+            color:white;
+        }
+        .cardd label{
+            text-align:left;
+            display:block;
+            margin-bottom:5px;
+            margin-top:5px;
+        }
+        .cardd input{
+            display:block;
+            padding:5px;
+            width:100%;
+        }
+        .cardd button{
+            padding:10px;
+            font-family:'Metropolis Regular',sans-serif;
+            margin-top:20px;
+            background-color:#03EB8E;
+            border:1px solid #03EB8E;
+            color:white;
+        }
+        .cardd button:hover{
+            background-color:white;
+            cursor:pointer;
+            color:#03EB8E;
+        }
+        .cardd form li{
+            background-color:#e26262;color:#3c0707;padding:4px;font-size:10px;
+        }
+        
+    </style>
+    <div class="cardd">
+        <h1 style="color:#03EB8E;margin-bottom:20px;">Settings</h1>
+        
+        {{form(form)}}
+    </div>
+    
+{% endblock %}

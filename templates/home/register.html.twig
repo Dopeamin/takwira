@@ -4,6 +4,11 @@
     {{page}}
 {% endblock %}
 {% block body %}
+     {% if app.user %}
+    <script>
+        window.location.replace("{{path('home')}}");
+    </script>
+    {% endif %}
     <style>
         .log_container{
             display:flex;
@@ -109,19 +114,21 @@
             <h1>
                 Sign Up
             </h1>
-            <form>
-            <span><img src="assets/person.svg"/></span><input type="text" placeholder="Username"/></br>
-            <span><img src="assets/email.svg"/></span><input type="text" placeholder="Email"/></br>
-            <span><img src="assets/padlock.svg"/></span><input type="password" style="width:100px" placeholder="Password"/><span><img src="assets/padlock.svg"/></span><input style="width:100px" type="password" placeholder="Repeat   Password"/></br>
-            <span><img src="assets/phone-call.svg"/></span><input type="text" placeholder="Phone"/></br>
+            {{form_start(form)}}
+            {{ form_errors(form) }}
+            <span><img src="assets/person.svg"/></span>{{form_widget(form.userName,{'attr' : {'placeholder': 'UserName'}})}}</br>
+            <span><img src="assets/email.svg"/></span>{{form_widget(form.userEmail,{'attr' : {'placeholder': 'UserEmail'}})}}</br>
+            <span><img src="assets/padlock.svg"/></span>{{form_widget(form.userPass,{'attr' : {'placeholder': 'UserPass','style':'width:100px'}})}}<span><img src="assets/padlock.svg"/></span>{{form_widget(form.confirmPass,{'attr' : {'placeholder': 'Confirm UserPass','style':'width:100px'}})}}</br>
+            <span><img src="assets/phone-call.svg"/></span>{{form_widget(form.userPhone,{'attr' : {'placeholder': 'User Phone'}})}}</br>
             <button value="Log In" class="btn">Sign Up</button></br>
-            <button value="Log In" class="btn2">Log in</button>
-            </form>
+            {{form_end(form)}}
+            <a href="{{absolute_url('login')}}"><button class="btn2">Sign Up</button></a>
         </div>
         <div class="log_svg">
             <img src="assets/reg.svg"/></br>
             <a href="./login">Already have an account ?<p></a>
         </div>
+        
     </div>
 
 {% endblock %}

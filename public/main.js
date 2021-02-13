@@ -62,9 +62,7 @@ $(document).ready(function() {
             $("#dropdownmenu").slideUp(500);
             toggled = 0;
         }
-
-
-    })
+    });
     var k = 0;
     $(window).scroll(function() {
         var top_of_element = $(".first").offset().top;
