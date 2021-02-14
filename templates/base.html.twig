@@ -8,8 +8,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset( 'main.css' )}}">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
-             {% endblock %}
-        <link rel="stylesheet" href="{{asset('vanilla-calendar-min.css')}}">
+        {% endblock %}
         <link rel="stylesheet" href="{{asset('leaflet.css')}}">
     <script src="{{asset('vanilla-calendar-min.js')}}"></script>
     </head>
@@ -34,9 +33,9 @@
                     <div class="menu-small">
                         <div class="container">
                             <a id="exit"><p>X</p></a>
-                            <a href="./"><p>Home</p></a>
-                            <a href="./stadiums"><p>Stadiums</p></a>
-                            <a href="#"><p>About us</p></a>
+                            <a href="{{url('home')}}"><p>Home</p></a>
+                            <a href="{{url('stadiums')}}"><p>Stadiums</p></a>
+                            <a href="{{url('home')}}#tak"><p>About us</p></a>
                             <a href="#"><p>Contact Us</p></a>
                             {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>

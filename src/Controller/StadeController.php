@@ -257,8 +257,8 @@ class StadeController extends AbstractController
             ->add("submitt",SubmitType::Class,['attr'=>['placeholder'=>'Comment'],'label'=>'Submit'])
             ->getForm();
             $orderform->handleRequest($request);
-            if ($orderform->isSubmitted() && $orderform->isValid()) {
-                
+            if ($orderform->isSubmitted()) {
+                if($orderform->isValid()){
                 $exist=$ordersrepo->getByDate($orderform->get('startDate')->getData(),$orderform->get('endDate')->getData());
                 if($exist){
                     $this->addFlash('failure', 'Already Reserved');
@@ -273,8 +273,12 @@ class StadeController extends AbstractController
                 $entityManager->flush();
                 return $this->redirectToRoute('stadiumsShow',['id'=>$id]);
                 }
+                }else{
+                    $this->addFlash('failure', 'Reservation Failed - Check Dates');
+                }
                 
             }
+            
                 $ordersss = $ordersrepo->findBy(['Stade'=>$id,'verified'=>true]);
             $rdv = [];
             foreach($ordersss as $orderss){
@@ -291,6 +295,28 @@ class StadeController extends AbstractController
             $date=json_encode($rdv);
         return $this->render('stade/stadium.html.twig',[
             'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg', 'stade' => $stade,'form'=>$form->createView(),'comments'=>$comments,'orderForm'=>$orderform->createView(),'data'=>compact('date')
+        ]);
+    }
+    /**
+     * @Route("/stadiums/show/{id}/order", name="stadiumOrder")
+     */
+    public function order(int $id,Request $request,StadeRepository $staderepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
+                $ordersss = $ordersrepo->findBy(['Stade'=>$id,'verified'=>true]);
+            $rdv = [];
+            foreach($ordersss as $orderss){
+                $rdv[]= [
+                    'id'=> $orderss->getId(),
+                    'start'=> $orderss->getStartDate()->format('Y-m-d H:i:s'),
+                    'end'=> $orderss->getEndDate()->format('Y-m-d H:i:s'),
+                    'title'=>$orderss->getUser()->getUserName(),
+                    'backgroundColor'=>'lightgreen'
+
+                ];
+            };
+            $page="Stadiums";
+            $date=json_encode($rdv);
+        return $this->render('stade/calendar.html.twig',[
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','data'=>compact('date')
         ]);
     }
     //  Calendar System : 
