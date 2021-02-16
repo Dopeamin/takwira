@@ -301,7 +301,35 @@ class StadeController extends AbstractController
      * @Route("/stadiums/show/{id}/order", name="stadiumOrder")
      */
     public function order(int $id,Request $request,StadeRepository $staderepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
-                $ordersss = $ordersrepo->findBy(['Stade'=>$id,'verified'=>true]);
+        $order=new Orders();
+            $orderform = $this->createFormBuilder($order)
+            ->setMethod('GET')
+            ->add("startDate",DateTimeType::Class,['attr'=>['placeholder'=>'Comment'],'label'=>'Start Date' ])
+            ->add("endDate",DateTimeType::Class,['attr'=>['placeholder'=>'Comment'],'label'=>'End Date'])
+            ->getForm();
+            $orderform->handleRequest($request);
+            if ($orderform->isSubmitted()) {
+                if($orderform->isValid()){
+                $exist=$ordersrepo->getByDate($orderform->get('startDate')->getData(),$orderform->get('endDate')->getData());
+                if($exist){
+                    $this->addFlash('failure', 'Already Reserved');
+                }else{
+                    $staade=$staderepo->find($id);
+                $user = $this->getUser();
+                $order->setUser($user);
+                $order->setVerified(false);
+                $order->setStade($staade);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($order);
+                $entityManager->flush();
+                return $this->redirectToRoute('stadiumsShow',['id'=>$id]);
+                }
+                }else{
+                    $this->addFlash('failure', 'Reservation Failed - Check Dates');
+                }
+                
+            }        
+        $ordersss = $ordersrepo->findBy(['Stade'=>$id,'verified'=>true]);
             $rdv = [];
             foreach($ordersss as $orderss){
                 $rdv[]= [

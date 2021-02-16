@@ -21,7 +21,9 @@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:15:00",locale:'fr',timeZone:'Europe/paris',
-            events:{{data.date|raw}}
+            events:{{data.date|raw}},selectable:true,selectOverlap:false,select: function(info) {
+              window.location.href = "{{ app.request.uri }}?startDate="+info.startStr+"&endDate=" + info.endStr;
+  }
         });
         calendar.render();
       });
