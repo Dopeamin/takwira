@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Stade;
 use App\Entity\Orders;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Orders|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,14 +48,15 @@ class OrdersRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function getByDate(\Datetime $startDate,\Datetime $endDate)
+    public function getByDate(\Datetime $startDate,\Datetime $endDate,Stade $stade)
     {
 
         $qb = $this->createQueryBuilder("e");
         $qb
-            ->andWhere('e.startDate <= :to AND e.endDate >= :from AND e.verified = 1')
+            ->andWhere('e.startDate < :to AND e.endDate > :from AND e.verified = 1 AND e.Stade = :stade ')
             ->setParameter('from', $startDate )
             ->setParameter('to', $endDate)
+            ->setParameter('stade', $stade)
         ;
         $result = $qb->getQuery()->getResult();
 

@@ -1,0 +1,27 @@
+{% extends "cpanel/index.html.twig" %}
+
+{% block right %}
+<style>
+    
+</style>
+<div class="right-container">
+    <h1>Stadiums : </h1>
+    {{form(form)}}
+    <a class="button" href="{{path('stadiumsAdd')}}"><p>Add</p></a>
+    {% for stade in stades %}
+    
+    <div class="element">
+        <div class="leftel">
+        <p>{{stade.id}} - </p>
+        <p>{{stade.stadeName}} - </p>
+        <p>{{stade.stadeOwner}} - </p>
+        <p>{{stade.stadePhone}}</p>
+        </div>
+        <div class="rightel">
+            <a href="{{path('dstades',{'id':stade.id})}}"><p>Delete</p></a>
+            <a href="{{path('ustades',{'id':stade.id})}}"><p>Update</p></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

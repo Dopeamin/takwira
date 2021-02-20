@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="user-scalable=no,width=device-width, initial-scale=1.0">
         <link rel="icon" href="{{asset('assets/logo2.svg')}}">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/jquery-bar-rating-master/dist/themes/bars-movie.css">
         <title>{% block title %}Takwira{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset( 'main.css' )}}">
@@ -17,11 +19,10 @@
         <header>
             <div class="header">
                 <div class="header-container">
-                    <a href="{{url('home')}}" style="margin:0px;padding:0px;width:400px"><img style="margin-left:10px;margin-top:10px;width:20%;min-width:150px;" src="{{  asset(logo)  }}"/></a>
+                    <a href="{{url('stadiums')}}" style="margin:0px;padding:0px;width:400px"><img style="margin-left:10px;margin-top:10px;width:20%;min-width:150px;" src="{{  asset(logo)  }}"/></a>
                     <div class="menu-big">
-                        <a href="{{url('home')}}"><p>Home</p></a>
-                        <a href="{{url('stadiums')}}"><p>Stadiums</p></a>
-                        <a href="{{url('home')}}#tak"><p>About us</p></a>
+                        <a href="{{url('stadiums')}}"><p>Home</p></a>
+                        <a href="{{url('home')}}"><p>About us</p></a>
                         <a href="#"><p>Contact Us</p></a>
                         {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
@@ -33,9 +34,8 @@
                     <div class="menu-small">
                         <div class="container">
                             <a id="exit"><p>X</p></a>
-                            <a href="{{url('home')}}"><p>Home</p></a>
-                            <a href="{{url('stadiums')}}"><p>Stadiums</p></a>
-                            <a href="{{url('home')}}#tak"><p>About us</p></a>
+                            <a href="{{url('stadiums')}}"><p>Home</p></a>
+                            <a href="{{url('home')}}"><p>About us</p></a>
                             <a href="#"><p>Contact Us</p></a>
                             {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
@@ -53,6 +53,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="{{ asset( 'main.js' )}}"></script>
         <script src="{{ asset( 'leaflet.js' )}}"></script>
+        <script>
+            $(".alert").delay(3000).fadeOut(1000);
+        </script>
         {% endblock %}
         {% block footer %}
             <footer>

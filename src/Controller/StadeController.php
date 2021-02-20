@@ -4,20 +4,22 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Stade;
 use App\Entity\Orders;
+use App\Entity\Reviews;
 use App\Entity\Comments;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\FloatType;
 use App\Repository\StadeRepository;
 use App\Repository\OrdersRepository;
+use App\Repository\ReviewsRepository;
 use App\Repository\CommentsRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\File;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -41,7 +43,7 @@ class StadeController extends AbstractController
     /**
      * @Route("/stadiums", name="stadiums")
      */
-    public function Stadiums(Request $request,StadeRepository $staderepo,PaginatorInterface $paginator): Response
+    public function Stadiums(ReviewsRepository $ratingrepo,Request $request,StadeRepository $staderepo,PaginatorInterface $paginator): Response
     {
         $featured = $staderepo
         ->findOneBy(['featured'=>true]);
@@ -78,6 +80,20 @@ class StadeController extends AbstractController
                 10 // Nombre de résultats par page
             );
         $page="Stadiums";
+        foreach($stades as $sta){
+            $ratings = $ratingrepo->findBy(['stade'=>$sta]);
+            $average = 0;
+            $i=0;
+            foreach($ratings as $rating){
+                $average += $rating->getRating();
+                $i++;
+            }
+            if($i!=0){
+                $average = $average/$i;
+            }
+            $sta->setStadeRating($average);
+        }
+        
         return $this->render('stade/stadiums.html.twig',[
             'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','stade'=>$articles,'form'=>$form->createView(),'city'=>$city,'featured'=>$featured
         ]);
@@ -218,9 +234,9 @@ class StadeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/stadiums/show/{id}", name="stadiumsShow")
+     * @Route("/stadiums/{id}", name="stadiumsShow")
      */
-    public function show(int $id,Request $request,Request $request2,StadeRepository $staderepo,CommentsRepository $commentsrepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
+    public function show(ReviewsRepository $ratingrepo,int $id,Request $request,Request $request2,StadeRepository $staderepo,CommentsRepository $commentsrepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
         
         $stade = $staderepo
             ->find($id);
@@ -292,43 +308,73 @@ class StadeController extends AbstractController
                 ];
             };
             $page="Stadiums";
+            $ratings = $ratingrepo->findBy(['stade'=>$stade]);
+            $rate = $ratingrepo->findOneBy(['user'=>$this->getUser(),'stade'=>$stade]);
+            $exists = false;
+            if($rate){
+                $exists = true;
+            }
+            $average = 0;
+            $i=0;
+            foreach($ratings as $rating){
+                $average += $rating->getRating();
+                $i++;
+            }
+            if($i!=0){
+                $average = $average/$i;
+            }
             $date=json_encode($rdv);
         return $this->render('stade/stadium.html.twig',[
-            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg', 'stade' => $stade,'form'=>$form->createView(),'comments'=>$comments,'orderForm'=>$orderform->createView(),'data'=>compact('date')
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','average'=>$average,'exists'=>$exists, 'stade' => $stade,'form'=>$form->createView(),'comments'=>$comments,'orderForm'=>$orderform->createView(),'data'=>compact('date')
         ]);
     }
     /**
-     * @Route("/stadiums/show/{id}/order", name="stadiumOrder")
+     * @Route("/stadiums/{id}/order", name="stadiumOrder" )
      */
     public function order(int $id,Request $request,StadeRepository $staderepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
         $order=new Orders();
-            $orderform = $this->createFormBuilder($order)
-            ->setMethod('GET')
-            ->add("startDate",DateTimeType::Class,['attr'=>['placeholder'=>'Comment'],'label'=>'Start Date' ])
-            ->add("endDate",DateTimeType::Class,['attr'=>['placeholder'=>'Comment'],'label'=>'End Date'])
-            ->getForm();
-            $orderform->handleRequest($request);
-            if ($orderform->isSubmitted()) {
-                if($orderform->isValid()){
-                $exist=$ordersrepo->getByDate($orderform->get('startDate')->getData(),$orderform->get('endDate')->getData());
+        $stade = $staderepo
+            ->find($id);
+            if (!$stade) {
+                throw $this->createNotFoundException(
+                    'No stade found for id '.$id
+                );
+            }
+        $start = $request->query->get('startDate');
+        $end = $request->query->get('endDate');
+        if(
+         (isset($start) && !empty($start)) &&
+         (isset($end) && !empty($end))
+        ){ 
+            $startDate = new \DateTime( $start );
+            $endDate = new \DateTime( $end );
+            $dateNow=new \DateTime('now');
+            $exist=$ordersrepo->getByDate($startDate,$endDate,$stade);
                 if($exist){
                     $this->addFlash('failure', 'Already Reserved');
+                    return $this->redirectToRoute('stadiumOrder',['id'=>$id]);
                 }else{
+                    $this->addFlash('failure', 'Reservation Done');
                     $staade=$staderepo->find($id);
                 $user = $this->getUser();
-                $order->setUser($user);
+                if($startDate<$dateNow){
+                    $this->addFlash('failure', 'Choose a later date');
+                    return $this->redirectToRoute('stadiumOrder',['id'=>$id]);
+                }
+                $order->setEndDate($endDate);
+                $order->setStartDate($startDate);
+                $order->setUser($this->getUser());
                 $order->setVerified(false);
-                $order->setStade($staade);
+                $order->setStade($stade);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($order);
                 $entityManager->flush();
+                
                 return $this->redirectToRoute('stadiumsShow',['id'=>$id]);
                 }
-                }else{
-                    $this->addFlash('failure', 'Reservation Failed - Check Dates');
-                }
-                
-            }        
+        }else{
+            
+        }
         $ordersss = $ordersrepo->findBy(['Stade'=>$id,'verified'=>true]);
             $rdv = [];
             foreach($ordersss as $orderss){
@@ -346,6 +392,33 @@ class StadeController extends AbstractController
         return $this->render('stade/calendar.html.twig',[
             'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','data'=>compact('date')
         ]);
+    }
+    /**
+     * @Route("/stadiums/{id}/rating", name="stadiumRating" )
+     */
+    public function rating(int $id,Request $request,StadeRepository $staderepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+        $stade = $staderepo->find($id);
+        $user = $this->getUser();
+        $rate = $ratingrepo->findOneBy(['user'=>$this->getUser(),'stade'=>$stade]);
+            
+            if($rate){
+                return $this->redirectToRoute('stadiumsShow',['id'=>$id]);
+            }
+        $review = new Reviews;
+        $review->setUser($user);
+        
+        $review->setStade($stade);
+        $rating = $request->query->get('rating');
+        if($rating>=1 && $rating<=5){
+            $review->setRating($rating);
+            $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($review);
+                $entityManager->flush();
+                $this->addFlash('failure', 'Rating Added');
+        }
+        
+        return $this->redirectToRoute('stadiumsShow',['id'=>$id]);
     }
     //  Calendar System : 
     /*

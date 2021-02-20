@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $("body").css({ "overflow-x": "hidden" });
+    $(".alert").delay(3000).fadeOut(1000);
     document.body.addEventListener('touchmove', function(e) { e.preventDefault(); });
     if ($(window).width() <= 1000) {
         $(".log_svg").hide();

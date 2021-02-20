@@ -3,15 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -31,10 +33,17 @@ class RegistrationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createFormBuilder($user)
+                ->add('userName')
+                ->add('userPass', PasswordType::class)
+                ->add('confirmPass',PasswordType::class)
+                ->add('userEmail',EmailType::class)
+                ->add('userPhone')
+                ->getForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            if($form->isValid()){
             // encode the plain password
             $user->setUserPass(
                 $passwordEncoder->encodePassword(
@@ -49,7 +58,7 @@ class RegistrationController extends AbstractController
 
             // generate a signed url and email it to the user
             
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            /*$this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('no-reply@takwira.com', 'No Reply'))
                     ->to($user->getUserEmail())
@@ -70,12 +79,15 @@ class RegistrationController extends AbstractController
                 
             ;
             $mailer->send($message);
-            
+            */
             // do anything else you need here, like send an email
-            
+                    return $this->redirectToRoute('login');
+                }else{
+                    $this->addFlash('failure', 'Username or Email already used');
+                }
         }
         $page = "Register";
-        return $this->render('home/register.html.twig', ['page'=>$user->getUserEmail(),'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg',
+        return $this->render('home/register.html.twig', ['page'=>$user->getUserPass(),'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg',
             'form' => $form->createView(),
         ]);
     }

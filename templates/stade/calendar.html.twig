@@ -2,36 +2,98 @@
 
 {% block body %}
     <style>
+        .alert{
+    position:fixed;
+    margin:auto;
+    text-align:center;
+    left:50%;
+    transform:translateX(-50%);
+    padding:10px; 
+    background-color:#eb6565;
+    color:white;
+    z-index:300;
+  }
         #calendar{
             width:80% !important;
             min-width:300px;
             margin:auto;
             height:700px;
             font-family:'Metropolis',sans-serif;
+            margin-top:50px;
         }
         #calendar button{
             background-color:lightgreen;
         }
+        .tobetriggered{
+          display:none;
+          position:fixed;
+          top:0;
+          z-index:100;
+          width:100%;
+          height:100%;
+          
+          font-family:'Open Sans',sans-serif;
+          text-align:center;
+          background-color:#d3d3d36e;
+        }
+        .contai{
+          margin:auto;
+          margin-top:20%;
+          width:200px;
+          height:auto;
+          border:1px solid lightgrey;
+          background-color:white;
+          padding:20px;
+        }
+        .contai div{
+          display:inline-block;
+          padding:10px;
+          margin-top:20px;
+        }
     </style>
-    {{dump(data)}}
+    <div class="tobetriggered">
+      <div class="contai">
+        <p>Please Confirm your Order - You will be notified when the order is accepted</p>
+        <div class="button" id="confirmed">Yes</div>
+        <div class="button" id="canceled" style="background-color:#ea7979;color:white">No</div>
+      </div>
+    </div>
+    {% for message in app.flashes('failure') %}
+            <div class="alert" id="error">
+                {{ message }}
+            </div>
+        {% endfor %}
     <div id='calendar'></div>
     <script>
+      var today = new Date();
 
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       document.addEventListener('DOMContentLoaded', function() {
+        var startDate;
+        var endDate ;
+        $("#confirmed").on("click",function(){
+            window.location.href = "{{ app.request.uri }}?startDate="+startDate+"&endDate=" + endDate;
+          }) 
+        $("#canceled").on("click",function(){
+        $(".tobetriggered").fadeOut(1000);
+          })  
+         
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:15:00",locale:'fr',timeZone:'Europe/paris',
             events:{{data.date|raw}},selectable:true,selectOverlap:false,select: function(info) {
-              window.location.href = "{{ app.request.uri }}?startDate="+info.startStr+"&endDate=" + info.endStr;
-  }
+              startDate=info.startStr;
+              endDate=info.endStr;
+              $(".tobetriggered").fadeIn(1000);
+  },validRange: {
+    start: date
+}
         });
         calendar.render();
       });
-        
+      
+           
     </script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js" integrity="sha256-rPPF6R+AH/Gilj2aC00ZAuB2EKmnEjXlEWx5MkAp7bw=" crossorigin="anonymous"></script>
-
-{% endblock %}
-{% block javascript %}
 
 {% endblock %}

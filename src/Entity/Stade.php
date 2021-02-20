@@ -102,13 +102,19 @@ class Stade
     private $supplements;
 
     /**
-     * @ORM\OneToMany(targetEntity=Orders::class, mappedBy="Stade")
+     * @ORM\OneToMany(targetEntity=Orders::class, mappedBy="Stade",orphanRemoval=true)
      */
     private $orders;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reviews::class, mappedBy="stade", orphanRemoval=true)
+     */
+    private $reviews;
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getBrochureFilename()
@@ -339,6 +345,36 @@ class Stade
             // set the owning side to null (unless already changed)
             if ($order->getStade() === $this) {
                 $order->setStade(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reviews[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Reviews $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setStade($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Reviews $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getStade() === $this) {
+                $review->setStade(null);
             }
         }
 

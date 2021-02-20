@@ -46,7 +46,7 @@ class HomeController extends AbstractController
      * @Route("/profile/{id}", name="profile")
      */
     public function profile(int $id,Request $request,UserRepository $userrepo) : Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $userrepo -> find($id);
         $user2 = $this->getUser();
         $page = $user->getUserName();
@@ -61,7 +61,7 @@ class HomeController extends AbstractController
      * @Route("/profile/{id}/update", name="update")
      */
     public function profileUpdate(int $id,Request $request,UserRepository $userrepo,UserPasswordEncoderInterface $passwordEncoder) : Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_USER');
         
         $user = $userrepo -> find($id);
         
@@ -71,7 +71,9 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $pass2= $user->getUserPass();
-        $form = $this->createFormBuilder($user)
+        $form = $this->createFormBuilder($user, [
+            'validation_groups' => ['update'],
+        ])
             ->add('userName',TextType::class,['attr'=>['placeholder'=>'Username']])
             ->add('userPhone',IntegerType::class,['attr'=>['placeholder'=>'Phone']])
             ->add('oldPassword',PasswordType::class,['label'=>'Password','attr'=>['placeholder'=>'Password']])
@@ -101,7 +103,7 @@ class HomeController extends AbstractController
      * @Route("/profile/{id}/changePass", name="changePass")
      */
     public function passChange(int $id,Request $request,UserRepository $userrepo,UserPasswordEncoderInterface $passwordEncoder) : Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_USER');
         
         $user = $userrepo -> find($id);
         

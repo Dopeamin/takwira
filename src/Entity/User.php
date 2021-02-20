@@ -30,6 +30,7 @@ class User implements UserInterface
     private $userName;
 
     /**
+     * @Assert\EqualTo(propertyPath="confirmPass")
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=8, minMessage="Short Password")
      */
@@ -49,16 +50,17 @@ class User implements UserInterface
      */
     private $roles = [];
     /**
-     * @Assert\EqualTo(propertyPath="userPass")
      * 
+     * @Assert\EqualTo(propertyPath="userPass")
      */
     public $confirmPass;
     /**
+     * 
      * @SecurityAssert\UserPassword(
-     *     message = "Wrong value for your current password"
+     *     message = "Wrong value for your current password",groups={"update"}
      * )
      */
-    protected $oldPassword;
+    public $oldPassword;
     public $userPassNew;
     /**
      * @ORM\Column(type="boolean")
@@ -75,10 +77,16 @@ class User implements UserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Reviews::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $reviews;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->stade = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -230,6 +238,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reviews[]
+     */
+    public function getStade(): Collection
+    {
+        return $this->stade;
+    }
+
+    public function addreviews(Reviews $reviews): self
+    {
+        if (!$this->reviews->contains($reviews)) {
+            $this->reviews[] = $reviews;
+            $reviewse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReviews(Reviews $reviews): self
+    {
+        if ($this->reviews->removeElement($reviews)) {
+            // set the owning side to null (unless already changed)
+            if ($reviews->getUser() === $this) {
+                $reviews->setUser(null);
             }
         }
 

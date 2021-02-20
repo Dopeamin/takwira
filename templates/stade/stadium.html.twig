@@ -225,8 +225,8 @@ function showSlides(n) {
 <div class="contt">
         <div class="card" style="max-width:500px;width:500px;">
         <h3 style="color : #03EB8E">{{stade.stadeLocation}}</h3>
-        <h1>{{stade.stadeName}}{% if stade.stadeRating != NULL %}
-                        {% for i in 1 .. stade.stadeRating %}
+        <h1>{{stade.stadeName}}{% if average != NULL %}
+                        {% for i in 1 .. average %}
                             <img style="width:30px" src="{{asset('assets/star.svg')}}"/>
                         {% endfor %}
                     {% endif %}
@@ -236,9 +236,35 @@ function showSlides(n) {
         <div class="button" id="window_trigger"style="padding:10px;display:inline-block;color:black;margin-top:20px;">
             Order Now
         </div>
-        <div class="button2" style="padding:7px;display:inline-block;margin-top:20px;">
-            Leave Review
-        </div>
+        {% if (exists == false) %}
+        <div class="tobe">
+        <style>
+          .br-theme-bars-movie .br-widget a{
+            background-color:#abe3c4;
+          }
+          .br-theme-bars-movie .br-widget a.br-active,.br-theme-bars-movie .br-widget a.br-selected{
+            background-color:#04cc7c;
+          }
+          .br-theme-bars-movie .br-widget .br-current-rating{
+            color:#04cc7c;
+          }
+          .br-wrapper .br-theme-bars-movie, .br-widget{
+            display:inline-block;
+          }
+          .tobe{
+            vertical-align:bottom;
+            display:inline-block;
+          }
+        </style>
+    <select id="example">
+    <option value="1">Bad</option>
+    <option value="2">Mediocre</option>
+    <option value="3">Good</option>
+    <option value="4">Awesome</option>
+
+    </select>
+  </div> 
+        {% endif %}
         </br> 
         </div>
         <div style="display:inline-block">
@@ -391,14 +417,38 @@ function showSlides(n) {
         <h1 style="color:#03EB8E;font-family:'Monsterrat',sans-serif;">Order</h1>
         {{form(orderForm)}}
     </div>
-  </div>     
+  </div>   
+
+   
 {% endblock %}
 {% block footer %}
+<script src="/jquery-bar-rating-master/dist/jquery.barrating.min.js"></script>
+<script type="text/javascript">
+   $(function() {
+      $('#example').barrating({
+        theme: 'bars-movie',
+        onSelect: function(value, text, event) {
+          if (typeof(event) !== 'undefined') {
+            // rating was selected by a user
+            window.location.href = "{{ app.request.uri }}/rating?rating="+value;
+          }
+        }
+      });
+   });
+</script>
         <script>
             var i=0;
             $('#window_trigger').on('click',function(){
               {% if is_granted("ROLE_USER") %}
-              $('.order').fadeIn(500);
+              window.location = "{{absolute_url(stade.id ~ '/order')}}";
+              i=1;
+              {% else %}
+              window.location = "{{url('login')}}";
+              {% endif %}
+            })
+            $('#window_trigger2').on('click',function(){
+              {% if is_granted("ROLE_USER") %}
+              window.location = "{{absolute_url(stade.id ~ '/order')}}";
               i=1;
               {% else %}
               window.location = "{{url('login')}}";
@@ -429,4 +479,5 @@ function showSlides(n) {
             var marker= L.marker([{{stade.x}}, {{stade.y}}]).addTo(carte);
             marker.bindPopup("<h1>{{stade.stadeName}} </h1>");
         </script>
+
 {% endblock %}
