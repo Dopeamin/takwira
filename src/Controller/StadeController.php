@@ -396,7 +396,7 @@ class StadeController extends AbstractController
     /**
      * @Route("/stadiums/{id}/rating", name="stadiumRating" )
      */
-    public function rating(int $id,Request $request,StadeRepository $staderepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
+    public function rating(int $id,Request $request,ReviewsRepository $ratingrepo,StadeRepository $staderepo,UserRepository $usersrepo,OrdersRepository $ordersrepo) : Response {
         $this->denyAccessUnlessGranted("ROLE_USER");
         $stade = $staderepo->find($id);
         $user = $this->getUser();
