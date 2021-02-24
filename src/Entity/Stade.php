@@ -6,11 +6,11 @@ use App\Repository\StadeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=StadeRepository::class)
  */
-class Stade
+class Stade implements UserInterface
 {
     /**
      * @ORM\Id
@@ -110,6 +110,11 @@ class Stade
      * @ORM\OneToMany(targetEntity=Reviews::class, mappedBy="stade", orphanRemoval=true)
      */
     private $reviews;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
 
     public function __construct()
     {
@@ -350,7 +355,7 @@ class Stade
 
         return $this;
     }
-
+    public function getUsername(){}
     /**
      * @return Collection|Reviews[]
      */
@@ -379,5 +384,36 @@ class Stade
         }
 
         return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+    public function eraseCredentials()
+    {
+    }
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        if($this->id == 21){
+            $roles[] = 'ROLE_ADMIN';
+        }
+        return array_unique($roles);
     }
 }

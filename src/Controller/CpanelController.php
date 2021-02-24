@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CpanelController extends AbstractController
 {
@@ -141,7 +142,7 @@ class CpanelController extends AbstractController
     /**
      * @Route("/ustades/{id}", name="ustades")
      */
-    public function ustades(Request $request,SluggerInterface $slugger,int $id,StadeRepository $staderepo): Response
+    public function ustades(Request $request,SluggerInterface $slugger,int $id,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
     {
         $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $stade = $staderepo->find($id);
@@ -149,6 +150,7 @@ class CpanelController extends AbstractController
         $form = $this->createFormBuilder($stade)
             ->add('stadeName', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Nom Stade' )))
             ->add('stadeOwner', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Proprietaire Stade' ) ))
+            ->add('password', PasswordType::class,array('label' => false,'attr'=>array('placeholder'=>'Password' ) ))
             ->add('stadeDescription', TextareaType::class,array('label' => false,'attr'=>array('placeholder'=>'Description Stade'  )))
             ->add('stadePhone', IntegerType::class,array('label' => false,'attr'=>array('placeholder'=>'Telephone')))
             ->add('adresse', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Adresse' ) ))
@@ -220,6 +222,9 @@ class CpanelController extends AbstractController
                 $date = new \DateTime('@'.strtotime('now'));
                 $stade->setStadeDate($date);
                 $stade = $form->getData();
+                $encoded = $encoder->encodePassword($stade, $stade->getPassword());
+
+                $stade->setPassword($encoded);
                 $brochureFile = $form->get('brochure')->getData();
                 $brochureFile2 = $form->get('brochure2')->getData();
                 $brochureFile3 = $form->get('brochure3')->getData();

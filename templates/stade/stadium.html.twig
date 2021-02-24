@@ -284,13 +284,15 @@ function showSlides(n) {
                 <h3>Supplements</h3>
                 <p>{{stade.supplements}}</p>
              </div>
-            
+            <a href="{{path('stadiumCpanel',{'id':stade.id})}}"<div class="button" id="window_trigger"style="text-decoration:none;padding:10px;display:inline-block;color:black;margin-top:20px;">
+            Connect As Owner
+            </div></a>
         </div>
         <style>
         #calendar{
             width:80% !important;
             min-width:300px;
-            margin-top:50px !important;
+            margin-top:100px !important;
             margin-bottom:50px !important;
             margin:auto;
             height:570px;

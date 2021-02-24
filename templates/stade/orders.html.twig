@@ -1,0 +1,64 @@
+{% extends "stade/cpanel.html.twig" %}
+
+{% block right %}
+<style>
+    
+</style>
+<div class="right-container">
+    <h1>Orders : </h1>
+    {% for order in orders %}
+    
+    <div class="element">
+        <div class="leftel">
+        <p>{{order.id}} - </p>
+        <p>{{order.startDate|date("m/d/Y h:i:s")}} - </p>
+        <p>{{order.endDate|date("m/d/Y h:i:s")}} - </p>
+        <p>{{order.stade.stadeName}} - </p>
+        <p>{{order.user.userName}} - </p>
+        <p>{{order.user.userPhone}} - </p>
+        {% if order.verified %}
+        <p>Verified</p>
+        {% else %}
+        <p>Not Verified</p>
+        {% endif %}
+        </div>
+        <div class="rightel">
+            {% if order.verified == false %}<a href="{{path('vOrder',{'id':stade.id,'idd':order.id})}}"><p>Verify</p></a>{%  endif  %}
+            <a href="{{path('dorder',{'id':stade.id,'idd':order.id})}}"><p>Delete</p></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<style>
+        #calendar{
+            width:80% !important;
+            min-width:300px;
+            margin-top:100px !important;
+            margin-bottom:50px !important;
+            margin:auto;
+            height:570px;
+            font-family:'Metropolis',sans-serif;
+        }
+        #calendar button{
+            background-color:lightgreen;
+        }
+    </style>
+    <div id='calendar'></div>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          start: 'title', // will normally be on the left. if RTL, will be on the right
+  center: '',
+  end: 'today prev,next', // will normally be on the right. if RTL, will be on the left
+          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:30:00",locale:'fr',timeZone:'Europe/paris',
+            events:{{data.date|raw}}
+        });
+        calendar.render();
+      });
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js" integrity="sha256-rPPF6R+AH/Gilj2aC00ZAuB2EKmnEjXlEWx5MkAp7bw=" crossorigin="anonymous"></script>
+
+{% endblock %}

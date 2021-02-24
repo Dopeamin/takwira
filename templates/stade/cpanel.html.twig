@@ -1,0 +1,179 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% for message in app.flashes('failure') %}
+                <div class="alert" id="error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+    {% if page == false %}
+    <style>
+    body{
+        background:#f7f7f7;
+    }
+    footer{
+            background-color:transparent;
+        }
+        .cardd{
+            margin:auto;
+            
+            width:300px;
+            text-align:center;
+            margin-top:100px;
+            margin-bottom:100px;
+            border-radius:2px;
+            padding:40px;
+            background-color:white;
+            border:1px solid lightgrey;
+            font-family:'Metropolis',sans-serif;
+        }
+        .cardd a{
+            position:relative;
+            padding:10px;
+            display:inline-block;
+            top:10px !important;
+            text-decoration:none;
+            color:white;
+        }
+        .cardd label{
+            text-align:left;
+            display:block;
+            margin-bottom:5px;
+            margin-top:5px;
+        }
+        .cardd input{
+            display:block;
+            padding:5px;
+            width:100%;
+        }
+        .cardd button{
+            padding:10px;
+            font-family:'Metropolis Regular',sans-serif;
+            margin-top:20px;
+            background-color:#03EB8E;
+            border:1px solid #03EB8E;
+            color:white;
+        }
+        .cardd button:hover{
+            background-color:white;
+            cursor:pointer;
+            color:#03EB8E;
+        }
+        .cardd form li{
+            background-color:#e26262;color:#3c0707;padding:4px;font-size:10px;
+        }
+        
+    </style>
+    <div class="cardd">
+        <h1 style="color:#03EB8E;margin-bottom:20px;">Type Stadium Password</h1>
+        
+        {{form(form)}}
+    </div>
+    {% else %}
+    <style>
+body{
+    background:#f7f7f7;
+}
+footer{
+            background-color:transparent;
+        }
+    .cardd{
+        margin:auto;
+        display:flex;
+        margin-top:50px;
+        width:100%;
+        max-width:1000px;
+        height:auto;
+        background:white;
+        border: 1px solid lightgrey;
+        text-align:left;
+        margin-bottom:50px;
+        font-family:"Open Sans",sans-serif;
+    }
+    .left{
+        order:1;
+        width:30%;
+        border-right:1px solid lightgrey;
+        height:inherit;
+        
+    }
+    .right{
+        order:2;
+        width:70%;
+        height:100%;
+        
+    }
+    .button{
+            width:auto;
+            margin:0px;
+            padding:10px;
+            display:block;
+            background-color:white;
+            color:black;
+            text-decoration:none;
+            font-family:"Open Sans",sans-serif;
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .button:hover{
+            border:0px solid #03EB8E;
+            background-color:#fafafa;
+            color:black;
+        }
+        .active{
+            border-left:2px solid darkgrey;
+            padding:9px;
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .active:hover{
+            border-left:2px solid darkgrey;
+        }
+        .button p{
+            margin-left:20px;
+        }
+        .right-container{
+            margin-top:20px;
+            width:100%;
+            text-align:center;
+        }
+        .element{
+        width:100%;
+        border-bottom:1px solid lightgrey;
+        text-align:left;
+        height:auto;
+        padding-bottom:5px;
+        padding-top:5px;
+    }
+    .element p{
+        display:inline-block;
+    }
+    .leftel{
+        display:inline-block;
+        margin-left:10px;
+        width:70%;
+    }
+    .rightel{
+        display:inline-block;
+        float:right;
+        margin-right:10px;
+    }
+    .buttoncontainer{
+        height:100%;
+    }
+</style>
+<div class="cardd">
+    <div class="left">
+        <div class="buttoncontainer">
+            <a class="button {% if (app.request.get('_route') == 'stadiumUpdate')%}active{%  endif  %}" href="{{path('stadiumUpdate',{'id':stade.id})}}"><p>Stadium Manager</p></a>
+            <a class="button {% if (app.request.get('_route') == 'stadcomments')%}active{%  endif  %}" href="{{path('stadcomments',{'id':stade.id})}}"><p>Comments Manager</p></a>
+            <a class="button {% if (app.request.get('_route') == 'corders')%}active{%  endif  %}" href="{{path('stadiumOrders',{'id':stade.id})}}"><p>Orders Manager</p></a>
+        </div>
+    </div>
+    <div class="right">
+        {% block right %}
+
+        {% endblock %}
+    </div>
+</div>
+    {% endif %}
+{% endblock %}

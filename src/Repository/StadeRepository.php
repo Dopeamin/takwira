@@ -22,7 +22,10 @@ class StadeRepository extends ServiceEntityRepository
     // /**
     //  * @return Stade[] Returns an array of Stade objects
     //  */
-    
+    public function findAll()
+    {
+        return $this->findBy(array(), array('stadeRating' => 'DESC'));
+    }
     public function findAl(string $search,string $city): array
     {
         $entityManager = $this->getEntityManager();
@@ -31,14 +34,14 @@ class StadeRepository extends ServiceEntityRepository
                 'SELECT p
                 FROM App\Entity\Stade p
                 WHERE (p.stadeName LIKE :search OR p.stadeDescription LIKE :search)
-                ORDER BY p.id DESC'
+                ORDER BY p.stadeRating DESC'
             )->setParameter('search', "%$search%");
         }else{
             $query = $entityManager->createQuery(
                 'SELECT p
                 FROM App\Entity\Stade p
                 WHERE (p.stadeName LIKE :search OR p.stadeDescription LIKE :search) AND (p.stadeLocation LIKE :city OR p.stadeDescription LIKE :city)
-                ORDER BY p.id DESC'
+                ORDER BY p.stadeRating DESC'
             )->setParameters(['search'=>"%$search%",'city'=>"%$city%"]);
         }
         

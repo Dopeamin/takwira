@@ -12,12 +12,13 @@ use App\Repository\StadeRepository;
 use App\Repository\OrdersRepository;
 use App\Repository\ReviewsRepository;
 use App\Repository\CommentsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\File;
 
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -32,14 +33,16 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class StadeController extends AbstractController
 {
-    
+    public $page=false;
     /**
      * @Route("/stadiums", name="stadiums")
      */
@@ -50,11 +53,11 @@ class StadeController extends AbstractController
         $city=$request->query->getAlpha('City', 'All');
         if($city=="All"){
             $stades = $staderepo
-            ->findAll();
+            ->findAll(['stadeRating'=>'DESC']);
             
         }else{
             $stades = $staderepo
-            ->findBy(['stadeLocation'=>$city]);
+            ->findBy(['stadeLocation'=>$city],['stadeRating'=>'DESC']);
             
         }
         
@@ -91,7 +94,13 @@ class StadeController extends AbstractController
             if($i!=0){
                 $average = $average/$i;
             }
-            $sta->setStadeRating($average);
+            if($sta->getStadeRating() != $average){
+                $sta->setStadeRating($average);
+                $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($sta);
+                            $entityManager->flush();
+            }
+            
         }
         
         return $this->render('stade/stadiums.html.twig',[
@@ -99,19 +108,46 @@ class StadeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/stadiums/add", name="stadiumsAdd")
+     * @Route("/stadiums/{id}/cpanel", name="stadiumCpanel")
      */
-    public function StadiumAdd(Request $request,SluggerInterface $slugger): Response
+    public function StadiumPanel(Request $request,int $id,UserPasswordEncoderInterface $encoder,StadeRepository $staderepo): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
-        $stade=new stade();
+        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+        $stade = $staderepo->find($id);
+        $form=$this->createFormBuilder()
+            ->add("Password",PasswordType::class)
+            ->add("Submit",SubmitType::class)
+            ->getForm();
+        $page=false;
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $encoded = $encoder->isPasswordValid($stade, $form->get('Password')->getData());
+            if($encoded == $stade->getPassword()){
+                $page=$encoded;
+                
+            }else{
+                $this->addFlash('failure', 'Wrong Password');
+            }
+        }
+        return $this->render('stade/cpanel.html.twig',[
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','form'=>$form->createView(),'stade'=>$stade
+        ]);
+    }
+    /**
+     * @Route("/stadiums/{id}/cpanel/sstade", name="stadiumUpdate")
+     */
+    public function StadiumUpdate(Request $request,SluggerInterface $slugger,UserPasswordEncoderInterface $encoder,StadeRepository $staderepo,int $id): Response
+    {
+        $stade = $staderepo->find($id);
         $page="Stadiums Add";
         $form = $this->createFormBuilder($stade)
-            ->add('stadeName', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Nom Stade' )))
-            ->add('stadeOwner', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Proprietaire Stade' ) ))
-            ->add('stadeDescription', TextareaType::class,array('label' => false,'attr'=>array('placeholder'=>'Description Stade'  )))
-            ->add('stadePhone', IntegerType::class,array('label' => false,'attr'=>array('placeholder'=>'Telephone')))
-            ->add('adresse', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Adresse' ) ))
+            ->add('stadeName', TextType::class,array('attr'=>array('placeholder'=>'Nom Stade' )))
+            ->add('stadeOwner', TextType::class,array('attr'=>array('placeholder'=>'Proprietaire Stade' ) ))
+            ->add('password', PasswordType::class,array('attr'=>array('placeholder'=>'Password' ) ))
+            ->add('stadeDescription', TextareaType::class,array('attr'=>array('placeholder'=>'Description Stade'  )))
+            ->add('stadePhone', IntegerType::class,array('attr'=>array('placeholder'=>'Telephone')))
+            ->add('adresse', TextType::class,array('attr'=>array('placeholder'=>'Adresse' ) ))
             ->add('stadeLocation', ChoiceType::class,[
                 'choices' => [
                     'Tunis' => 'Tunis',
@@ -120,8 +156,215 @@ class StadeController extends AbstractController
                     'Manouba' => 'Manouba'
                 ],'label' => false,
                 ])
-            ->add('superficie', IntegerType::class,array('label' => false,'attr'=>array('placeholder'=>'Superficie' ) ))
-            ->add('supplements', TextType::class,array('label' => false,'attr'=>array('placeholder'=>'Supplements' ) ))
+            ->add('superficie', IntegerType::class,array('attr'=>array('placeholder'=>'Superficie' ) ))
+            ->add('supplements', TextType::class,array('attr'=>array('placeholder'=>'Supplements' ) ))
+            ->add('brochure', FileType::class, [
+                'label' => 'Image',
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
+            ])
+            ->add('brochure2', FileType::class, [
+                'label' => 'Image',
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
+            ])
+            ->add('brochure3', FileType::class, [
+                'label' => 'Image',
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
+            ])
+            ->add('x', NumberType::class, ['label' => 'X','attr'=>['readonly'=>'true','id'=>'x']])
+            ->add('y', NumberType::class, ['label' => 'Y','attr'=>['readonly'=>'true','id'=>'y']])
+            ->add('save', SubmitType::class, ['label' => 'Update Stade'])
+            ->getForm();
+            
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $date = new \DateTime('@'.strtotime('now'));
+                $stade->setStadeDate($date);
+                $stade = $form->getData();
+                $encoded = $encoder->encodePassword($stade, $stade->getPassword());
+
+                $stade->setPassword($encoded);
+                $brochureFile = $form->get('brochure')->getData();
+                $brochureFile2 = $form->get('brochure2')->getData();
+                $brochureFile3 = $form->get('brochure3')->getData();
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFilename2 = pathinfo($brochureFile2->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFilename3 = pathinfo($brochureFile3->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+                $safeFilename2 = $slugger->slug($originalFilename2);
+                $newFilename2 = $safeFilename2.'-'.uniqid().'.'.$brochureFile2->guessExtension();
+                $safeFilename3 = $slugger->slug($originalFilename3);
+                $newFilename3 = $safeFilename3.'-'.uniqid().'.'.$brochureFile3->guessExtension();
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                try {
+                    $brochureFile2->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename2
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                try {
+                    $brochureFile3->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename3
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $stade->setBrochureFilename($newFilename);
+                $stade->setBrochureFilename2($newFilename2);
+                $stade->setBrochureFilename3($newFilename3);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($stade);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('stadiumCpanel');
+            }
+        return $this->render('stade/add.html.twig',[
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','form'=> $form->createView()
+        ]);
+    }
+    /**
+     * @Route("/stadium/{id}/comments", name="stadcomments")
+     */
+    public function ccomments(int $id,CommentsRepository $commentsrepo,Request $request,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
+    {
+        $this->denyAccessUnlessGranted('IS_ANONYMOUS');
+        $stade= $staderepo->find($id);
+        $comments = $commentsrepo->findBy(['stadeId'=>$id]);
+        $form=$this->createFormBuilder()
+            ->add("Password",PasswordType::class)
+            ->add("Submit",SubmitType::class)
+            ->getForm();
+        $page=false;
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $encoded = $encoder->isPasswordValid($stade, $form->get('Password')->getData());
+            if($encoded == $stade->getPassword()){
+                $page=$encoded;
+            }else{
+                $this->addFlash('failure', 'Wrong Password');
+            }
+        }
+        
+        return $this->render('stade/comments.html.twig', [
+        'page'=>$page,'stade'=>$stade,'controller_name' => 'CpanelController','logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','comments'=>$comments,'form'=>$form->createView()
+        ]);
+    }
+     /**
+     * @Route("/stadiums/{id}/cpanel/sorders", name="stadiumOrders")
+     */
+    public function sorders(StadeRepository $staderepo,Request $request,$id,UserPasswordEncoderInterface $encoder): Response
+    {
+        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+        $stade = $staderepo->find($id);
+        $form=$this->createFormBuilder()
+            ->add("Password",PasswordType::class)
+            ->add("Submit",SubmitType::class)
+            ->getForm();
+        $form->handleRequest($request);
+        $rdv = [];
+        $orders = new Orders();
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $encoded = $encoder->isPasswordValid($stade, $form->get('Password')->getData());
+            if($encoded == $stade->getPassword()){
+                $this->page=$encoded;
+                $orders = $stade->getOrders();
+                
+                    foreach($orders as $order){
+                        $rdv[]= [
+                            'id'=> $order->getId(),
+                            'start'=> $order->getStartDate()->format('Y-m-d H:i:s'),
+                            'end'=> $order->getEndDate()->format('Y-m-d H:i:s'),
+                            'title'=>$order->getUser()->getUserName(),
+                            'backgroundColor'=>'lightgreen'
+
+                        ];
+                };
+            }else{
+                $this->addFlash('failure', 'Wrong Password');
+            }
+        }
+        $date = json_encode($rdv);
+        return $this->render('stade/orders.html.twig', [
+            'page'=>$this->page,'data'=>compact('date'),'stade'=>$stade,'controller_name' => 'CpanelController','logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','orders'=>$orders,'form'=>$form->createView()
+        ]);
+    }
+    /**
+     * @Route("/stadiums/add", name="stadiumsAdd")
+     */
+    public function StadiumAdd(Request $request,SluggerInterface $slugger,UserPasswordEncoderInterface $encoder): Response
+    {
+        $this->denyAccessUnlessGranted("ROLE_ADMIN");
+        $stade=new stade();
+        $page="Stadiums Add";
+        $form = $this->createFormBuilder($stade)
+            ->add('stadeName', TextType::class,array('attr'=>array('placeholder'=>'Nom Stade' )))
+            ->add('stadeOwner', TextType::class,array('attr'=>array('placeholder'=>'Proprietaire Stade' ) ))
+            ->add('password', PasswordType::class,array('attr'=>array('placeholder'=>'Password' ) ))
+            ->add('stadeDescription', TextareaType::class,array('attr'=>array('placeholder'=>'Description Stade'  )))
+            ->add('stadePhone', IntegerType::class,array('attr'=>array('placeholder'=>'Telephone')))
+            ->add('adresse', TextType::class,array('attr'=>array('placeholder'=>'Adresse' ) ))
+            ->add('stadeLocation', ChoiceType::class,[
+                'choices' => [
+                    'Tunis' => 'Tunis',
+                    'Ben Arous' => 'Ben Arous',
+                    'Ariana' => 'Ariana',
+                    'Manouba' => 'Manouba'
+                ],'label' => false,
+                ])
+            ->add('superficie', IntegerType::class,array('attr'=>array('placeholder'=>'Superficie' ) ))
+            ->add('supplements', TextType::class,array('attr'=>array('placeholder'=>'Supplements' ) ))
             ->add('brochure', FileType::class, [
                 'label' => 'Image',
                 'mapped' => false,
@@ -179,7 +422,12 @@ class StadeController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $date = new \DateTime('@'.strtotime('now'));
                 $stade->setStadeDate($date);
+                $stade->setFeatured(false);
                 $stade = $form->getData();
+                
+                $encoded = $encoder->encodePassword($stade, $stade->getPassword());
+
+                $stade->setPassword($encoded);
                 $brochureFile = $form->get('brochure')->getData();
                 $brochureFile2 = $form->get('brochure2')->getData();
                 $brochureFile3 = $form->get('brochure3')->getData();
@@ -232,6 +480,102 @@ class StadeController extends AbstractController
         return $this->render('stade/add.html.twig',[
             'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','form'=> $form->createView()
         ]);
+    }
+    /**
+     * @Route("/stadium/{id}/cpanel/vorder/{idd}", name="vOrder")
+     */
+    public function verifyOrder(int $id,OrdersRepository $ordersrepo,Request $request,int $idd,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
+    {
+            
+
+            $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+            $stade = $staderepo->find($id);
+            $form=$this->createFormBuilder()
+                ->add("Password",PasswordType::class)
+                ->add("Submit",SubmitType::class)
+                ->getForm();
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                
+                $encoded = $encoder->isPasswordValid($stade, $form->get('Password')->getData());
+                if($encoded == $stade->getPassword()){
+                    $this->page=$encoded;
+                    $orderr = $ordersrepo->find($idd);
+                    $orderr->setVerified(true);
+                    $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($orderr);
+                            $entityManager->flush();
+                    return $this->redirectToRoute('stadiumOrders',['id'=>$id]);
+                }else{
+                    $this->addFlash('failure', 'Wrong Password');
+                }
+            }
+            $orders = $stade->getOrders();
+            return $this->render('stade/orders.html.twig', [
+                'page'=>$this->page,'stade'=>$stade,'controller_name' => 'CpanelController','logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','orders'=>$orders,'form'=>$form->createView()
+            ]);
+    }
+    /**
+     * @Route("/stadium/{id}/cpanel/{idd}/dorder", name="dorder")
+     */
+    public function dOrder(int $idd,OrdersRepository $ordersrepo,Request $request,int $id,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
+    {
+        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+            $stade = $staderepo->find($id);
+            $form=$this->createFormBuilder()
+                ->add("Password",PasswordType::class)
+                ->add("Submit",SubmitType::class)
+                ->getForm();
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                
+                $encoded = $encoder->isPasswordValid($stade, $form->get('Password')->getData());
+                if($encoded == $stade->getPassword()){
+                    $this->page=$encoded;
+                    $orderr = $ordersrepo->find($idd);
+                    $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->remove($orderr);
+                            $entityManager->flush();
+                    return $this->redirectToRoute('stadiumOrders',['id'=>$id]);
+                }else{
+                    $this->addFlash('failure', 'Wrong Password');
+                }
+            }
+            $orders = $stade->getOrders();
+            return $this->render('stade/orders.html.twig', [
+                'page'=>$this->page,'stade'=>$stade,'controller_name' => 'CpanelController','logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','orders'=>$orders,'form'=>$form->createView()
+            ]);
+    }
+    /**
+     * @Route("/stadium/{id}/cpanel/{idd}/dcomments", name="dstadcomment")
+     */
+    public function dComment(int $idd,CommentsRepository $commentsrepo,Request $request,int $id,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
+    {
+        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+            $stade = $staderepo->find($id);
+            $form=$this->createFormBuilder()
+                ->add("Password",PasswordType::class)
+                ->add("Submit",SubmitType::class)
+                ->getForm();
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                
+                $encoded = $encoder->isPasswordValid($stade, $form->get('Password')->getData());
+                if($encoded == $stade->getPassword()){
+                    $this->page=$encoded;
+                    $comment = $commentsrepo->find($idd);
+                    $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->remove($comment);
+                            $entityManager->flush();
+                    return $this->redirectToRoute('stadcomments',['id'=>$id]);
+                }else{
+                    $this->addFlash('failure', 'Wrong Password');
+                }
+            }
+            $orders = $stade->getOrders();
+            return $this->render('stade/orders.html.twig', [
+                'page'=>$this->page,'stade'=>$stade,'controller_name' => 'CpanelController','logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','orders'=>$orders,'form'=>$form->createView()
+            ]);
     }
     /**
      * @Route("/stadiums/{id}", name="stadiumsShow")

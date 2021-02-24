@@ -207,7 +207,6 @@ function showSlides(n) {
         <div class="stad-cont">
             <div class="buttons">
                 <a href="#" class="activee"><p>All Stadiums</p></a>
-                <a href="#"><p>Recently Viewed</p></a>
             </div>
             <div class="menus">
                 {{form_start(form)}}
@@ -231,7 +230,7 @@ function showSlides(n) {
                 </div>
                 
                 {{ form_widget(form.search) }}
-                <img class="filters" style="width:70px;position:relative;top:8px;left:5px;" src="assets/filters.svg"/>
+                <!-- <img class="filters" style="width:70px;position:relative;top:8px;left:5px;" src="assets/filters.svg"/> -->
                 {{ form_widget(form.submit) }}
                 {{form_end(form)}}
             </div>
@@ -243,7 +242,6 @@ function showSlides(n) {
                 
                     <h1>Nom Stade : </h1><p>{{ stade.stadeName}}</p><br>
                     <h1>Location : </h1><p>{{stade.stadeLocation}}</p><br>
-                    <h1>Availability : </h1><p>Available</p><br>
                     <h1>Rating : </h1><p>{% if stade.stadeRating != NULL %}
                         {% for i in 1 .. stade.stadeRating %}
                             <img style="width:20px" src="{{asset('assets/star.svg')}}"/>
