@@ -98,7 +98,23 @@
             background-color:#2BB07F;
             color:white;
         }
+    .alert {
+    position: fixed;
+    margin: auto;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: #eb6565;
+    color: white;
+    z-index: 300;
+}
     </style>
+    {% for message in app.flashes('failure') %}
+            <div class="alert" id="error">
+                {{ message }}
+            </div>
+        {% endfor %}
     {% if app.user %}
     <script>
         window.location.replace("http://www.w3schools.com");

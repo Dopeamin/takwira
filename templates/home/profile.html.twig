@@ -52,6 +52,7 @@
         <h3>Phone : </h3><p>{{ app.user.userPhone  }}</p></br>
         <a class="button"href="{{path('update',{id:app.user.id})}}">Modify</a></br>
         <a class="button"href="{{path('changePass',{id:app.user.id})}}">Change Password</a></br>
+        <a class="button"href="{{path('userOrders',{id:app.user.id})}}">Orders</a></br>
         <a class="button"href="{{path('logout')}}">Logout</a></br>
         {% if is_granted('ROLE_ADMIN') %}
         <a class="button"href="{{path('cpanel')}}">Control Panel</a>

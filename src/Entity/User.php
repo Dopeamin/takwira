@@ -171,7 +171,12 @@ class User implements UserInterface
         }
         return array_unique($roles);
     }
-    
+    public function setAdmin(): self
+    {
+        // guarantee every user at least has ROLE_USER
+        $this->roles[] = 'ROLE_ADMIN';
+        return $this;
+    }
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -256,7 +261,7 @@ class User implements UserInterface
     {
         if (!$this->reviews->contains($reviews)) {
             $this->reviews[] = $reviews;
-            $reviewse->setUser($this);
+            $reviews->setUser($this);
         }
 
         return $this;

@@ -50,9 +50,11 @@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           start: 'title', // will normally be on the left. if RTL, will be on the right
-  center: '',
+ headerToolbar: {
+                center: 'dayGridMonth,timeGridWeek' // buttons for switching between views
+            },''
   end: 'today prev,next', // will normally be on the right. if RTL, will be on the left
-          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:30:00",locale:'fr',timeZone:'Europe/paris',
+          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "01:30:00",locale:'fr',timeZone:'Europe/paris',
             events:{{data.date|raw}}
         });
         calendar.render();

@@ -308,10 +308,13 @@ function showSlides(n) {
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+          expandRows:true,
+          headerToolbar: {
+                center: 'dayGridMonth,timeGridWeek' // buttons for switching between views
+            },
           start: 'title', // will normally be on the left. if RTL, will be on the right
-  center: '',
   end: 'today prev,next', // will normally be on the right. if RTL, will be on the left
-          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:30:00",locale:'fr',timeZone:'Europe/paris',
+          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "01:30:00",locale:'fr',timeZone:'Europe/paris',
             events:{{data.date|raw}}
         });
         calendar.render();
@@ -320,7 +323,7 @@ function showSlides(n) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js" integrity="sha256-rPPF6R+AH/Gilj2aC00ZAuB2EKmnEjXlEWx5MkAp7bw=" crossorigin="anonymous"></script>
 
-       <h1 style="font-family:'Metropolis',sans-serif">Location</h1>
+       <h1 style="font-family:'Metropolis',sans-serif;text-align:center">Location</h1>
 </div>  
 <div id="maCarte">
 

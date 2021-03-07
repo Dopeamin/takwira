@@ -136,5 +136,36 @@ class HomeController extends AbstractController
             'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','form'=>$form->createView()
         ]);
     }
+    /**
+     * @Route("/profile/{id}/orders", name="userOrders")
+     */
+    public function userOrders(int $id,Request $request,UserRepository $userrepo,UserPasswordEncoderInterface $passwordEncoder) : Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        
+        $user = $userrepo -> find($id);
+        
+        $user2 = $this->getUser();
+        $page = $user->getUserName();
+        if($user->getId()!=$user2->getId()){
+            return $this->redirectToRoute('home');
+        }
+        $Orders = $user->getOrders();
+        $rdv = [];
+            foreach($Orders as $orderss){
+                $title = "Ref de stade : ".$orderss->getStade()->getId()." Ref : ". $orderss->getId();
+                $rdv[]= [
+                    'id'=> $orderss->getId(),
+                    'start'=> $orderss->getStartDate()->format('Y-m-d H:i:s'),
+                    'end'=> $orderss->getEndDate()->format('Y-m-d H:i:s'),
+                    'title'=>$title,
+                    'backgroundColor'=>'lightgreen'
+
+                ];
+            };
+            $date=json_encode($rdv);    
+        return $this->render('home/orders.html.twig',[
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','orders'=>$Orders,'data'=>compact('date')
+        ]);
+    }
 }
 

@@ -80,7 +80,11 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
          
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "00:15:00",locale:'fr',timeZone:'Europe/paris',
+          expandRows:true,
+          headerToolbar: {
+                center: 'dayGridMonth,timeGridWeek' // buttons for switching between views
+            },
+          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "01:30:00",locale:'fr',timeZone:'Europe/paris',
             events:{{data.date|raw}},selectable:true,selectOverlap:false,select: function(info) {
               startDate=info.startStr;
               endDate=info.endStr;

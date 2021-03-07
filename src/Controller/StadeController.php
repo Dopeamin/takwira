@@ -112,7 +112,7 @@ class StadeController extends AbstractController
      */
     public function StadiumPanel(Request $request,int $id,UserPasswordEncoderInterface $encoder,StadeRepository $staderepo): Response
     {
-        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+        
         $stade = $staderepo->find($id);
         $form=$this->createFormBuilder()
             ->add("Password",PasswordType::class)
@@ -277,7 +277,7 @@ class StadeController extends AbstractController
      */
     public function ccomments(int $id,CommentsRepository $commentsrepo,Request $request,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
     {
-        $this->denyAccessUnlessGranted('IS_ANONYMOUS');
+        
         $stade= $staderepo->find($id);
         $comments = $commentsrepo->findBy(['stadeId'=>$id]);
         $form=$this->createFormBuilder()
@@ -305,7 +305,7 @@ class StadeController extends AbstractController
      */
     public function sorders(StadeRepository $staderepo,Request $request,$id,UserPasswordEncoderInterface $encoder): Response
     {
-        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+        
         $stade = $staderepo->find($id);
         $form=$this->createFormBuilder()
             ->add("Password",PasswordType::class)
@@ -488,7 +488,7 @@ class StadeController extends AbstractController
     {
             
 
-            $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+            
             $stade = $staderepo->find($id);
             $form=$this->createFormBuilder()
                 ->add("Password",PasswordType::class)
@@ -520,7 +520,7 @@ class StadeController extends AbstractController
      */
     public function dOrder(int $idd,OrdersRepository $ordersrepo,Request $request,int $id,StadeRepository $staderepo,UserPasswordEncoderInterface $encoder): Response
     {
-        $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+        
             $stade = $staderepo->find($id);
             $form=$this->createFormBuilder()
                 ->add("Password",PasswordType::class)
@@ -708,7 +708,7 @@ class StadeController extends AbstractController
                 $order->setEndDate($endDate);
                 $order->setStartDate($startDate);
                 $order->setUser($this->getUser());
-                $order->setVerified(false);
+                $order->setVerified(true);
                 $order->setStade($stade);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($order);
