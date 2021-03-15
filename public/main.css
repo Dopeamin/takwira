@@ -330,11 +330,12 @@ header {
     top: -50px;
     width: 100%;
     display: block;
+    
 }
 
 .stad-cont {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
     background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.11);
@@ -456,14 +457,21 @@ li {
 }
 
 .stade {
-    width: 100%;
-    height: 200px;
-    margin-top: 50px;
-    margin-left: 40%;
-    transform: translateX(-35%);
-    display: inline-block;
+    width: 250px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 0px 0px 6px #ccc;
+    margin-top:10px;
+    height:400px;
+    border-radius: 10px;
+    margin:10px;
+    display:inline-block;
 }
-
+.stades{
+    margin:auto;
+    display: block;
+    text-align: center;
+}
 .stade-content h1 {
     display: inline-block;
     font-size: 20px;
@@ -477,14 +485,12 @@ li {
 }
 
 .stade-content {
-    padding-top: 20px;
     display: inline-block;
-    margin-top: 40px;
+    margin-top: 10px;
     vertical-align: top;
-    transform: translateY(-60px);
-    left: 10px;
     font-family: 'Metropolis Regular', sans-serif;
-    width: 40%;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 @keyframes float {

@@ -195,10 +195,15 @@ function showSlides(n) {
         <div class="mySlides fade">
         <img src="{{asset('uploads/brochures/' ~ featured.brochureFilename3)}}" style="width:100%;height:400px;object-fit:cover">
         </div>
-        <div style="position:absolute;top:40px;color:#202020;font-size:32px;margin:auto;display:inline-block;left:40%;transform:translateX(-50%)">
-            <h1 style='color:#03EB8E'>Featured</h1>
-            <p style="background-color:white;padding:7px;margin-left:5px">{{featured.stadeLocation}}-{{ featured.stadeName  }}</p>
-            <a style="text-decoration:none;color:white"href="{{absolute_url('stadiums/' ~ featured.id)}}"><div class="button2" style="box-shadow:0px 3px 10px 0px 3px 10px #3d3d3d;font-size:24px;border-radius:10px;;margin-left:10px;margin-top:10px;;width:200px;padding:5px;text-align:center;background:transparent">Show More</div></a>
+        <div style="position:absolute;top:40px;color:#202020;font-size:32px;margin:auto;display:inline-block;left:50%;transform:translateX(-50%)">
+            <h1 style='color:#03EB8E;font-size:53px'>{{ featured.stadeName  }}{% if featured.stadeRating != NULL %}
+                          {% for i in 1 .. featured.stadeRating %}
+                              <img style="width:30px" src="{{asset('assets/star.svg')}}"/>
+                          {% endfor %}
+                      {% endif %}</h1>
+            <p style="background-color:white;padding:7px;margin-left:5px;display:inline-block">{{featured.stadeLocation}} - {{featured.adresse}}  </p></br>
+            <a style="text-decoration:none;color:white;display:inline-block"href="{{absolute_url('stadiums/' ~ featured.id)}}"><div class="button2" style="box-shadow:0px 3px 10px 0px 3px 10px #3d3d3d;font-size:24px;border-radius:10px;;margin-left:10px;margin-top:10px;;width:200px;padding:5px;text-align:center;background:transparent">Show More</div></a>
+            <a style="text-decoration:none;color:#03EB8E;display:inline-block"href="{{absolute_url('stadiums/' ~ featured.id)}}"><div class="button2" style="box-shadow:0px 3px 10px 0px 3px 10px #3d3d3d;font-size:18px;border-radius:10px;;margin-left:5px;margin-top:10px;;width:200px;padding:5px;text-align:center;color:#03EB8E;">Order Now</div></a>
         </div>
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -207,6 +212,9 @@ function showSlides(n) {
         <div class="stad-cont">
             <div class="buttons">
                 <a href="#" class="activee"><p>All Stadiums</p></a>
+                {% if app.user %}
+                <a href="{{path('recently')}}"><p>Recently Reserved</p></a>
+                {% endif %}
             </div>
             <div class="menus">
                 {{form_start(form)}}
@@ -234,24 +242,28 @@ function showSlides(n) {
                 {{ form_widget(form.submit) }}
                 {{form_end(form)}}
             </div>
+            <div class="stades">
             {% for stade in stade %}
-            <div class="stade">
-                <div style="display:inline-block;width:200px;height:200px;background-image:url('{{asset('uploads/brochures/' ~ stade.brochureFilename)}}');background-size:cover;background-repeat:no-repeat;background-position:center">
-                </div>
-                <div class="stade-content">
-                
-                    <h1>Nom Stade : </h1><p>{{ stade.stadeName}}</p><br>
-                    <h1>Location : </h1><p>{{stade.stadeLocation}}</p><br>
-                    <h1>Rating : </h1><p>{% if stade.stadeRating != NULL %}
-                        {% for i in 1 .. stade.stadeRating %}
-                            <img style="width:20px" src="{{asset('assets/star.svg')}}"/>
-                        {% endfor %}
-                    {% endif %}
-                    </p><br>
-                    <a style="text-decoration:none;color:white"href="{{absolute_url('stadiums/' ~ stade.id)}}"><div class="button" style="font-size:14px;border-radius:10px;;margin-left:10px;margin-top:10px;;width:100px;padding:10px;text-align:center">Show More</div></a>
-                </div>
-            </div>
+            
+              <div class="stade">
+                  <div style="border-top-right-radius:10px;border-top-left-radius:10px;display:inline-block;width:250px;height:200px;background-image:url('{{asset('uploads/brochures/' ~ stade.brochureFilename)}}');background-size:cover;background-repeat:no-repeat;background-position:center">
+                  </div>
+                  <div class="stade-content">
+                  
+                      <h1>Nom Stade : </h1><p>{{ stade.stadeName}}</p><br>
+                      <h1>Location : </h1><p>{{stade.stadeLocation}}</p><br>
+                      <h1>Rating : </h1><p>{% if stade.stadeRating != NULL %}
+                          {% for i in 1 .. stade.stadeRating %}
+                              <img style="width:20px" src="{{asset('assets/star.svg')}}"/>
+                          {% endfor %}
+                      {% endif %}
+                      </p><br>
+                      <a style="text-decoration:none;color:white"href="{{absolute_url('stadiums/' ~ stade.id)}}"><div class="button" style="font-size:14px;border-radius:10px;margin:auto;margin-top:20px;width:100px;padding:10px;text-align:center">Show More</div></a>
+                  </div>
+              </div>
+            
             {% endfor %}
+            </div>
             {{ knp_pagination_render(stade) }}
         </div>
     </div>

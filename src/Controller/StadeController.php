@@ -80,7 +80,7 @@ class StadeController extends AbstractController
             $articles = $paginator->paginate(
                 $stades, // Requête contenant les données à paginer (ici nos articles)
                 $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                10 // Nombre de résultats par page
+                12 // Nombre de résultats par page
             );
         $page="Stadiums";
         foreach($stades as $sta){
@@ -105,6 +105,27 @@ class StadeController extends AbstractController
         
         return $this->render('stade/stadiums.html.twig',[
             'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','stade'=>$articles,'form'=>$form->createView(),'city'=>$city,'featured'=>$featured
+        ]);
+    }
+    /**
+     * @Route("/recently", name="recently")
+     */
+    public function StadiumsRecently(ReviewsRepository $ratingrepo,Request $request,StadeRepository $staderepo,PaginatorInterface $paginator): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $stades = $user->getOrders();
+        $featured = $staderepo
+        ->findOneBy(['featured'=>true]);
+            $articles = $paginator->paginate(
+                $stades, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                10 // Nombre de résultats par page
+            );
+        $page="Stadiums";
+        
+        return $this->render('stade/recently.html.twig',[
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','orders'=>$articles,'featured'=>$featured
         ]);
     }
     /**
