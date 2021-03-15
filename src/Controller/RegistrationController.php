@@ -53,12 +53,13 @@ class RegistrationController extends AbstractController
                     $form->get('userPass')->getData()
                 )
             );
+            $user->setIsVerified(true);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            
+            /*
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('no-reply@takwira.com', 'No Reply'))
@@ -81,6 +82,7 @@ class RegistrationController extends AbstractController
             ;
             $mailer->send($message);
                     $this->addFlash('failure', 'A verification email has been sent to your email');
+                    */
                     return $this->redirectToRoute('login');
                 }else{
                     $this->addFlash('failure', 'Username or Email already used');
