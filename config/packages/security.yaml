@@ -42,5 +42,5 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
-        - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        - { path: '^/cpanel', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] ,requires_channel: https }
+        - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: '^/cpanel', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN]}
