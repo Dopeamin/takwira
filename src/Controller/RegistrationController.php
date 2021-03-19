@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,10 +37,10 @@ class RegistrationController extends AbstractController
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
         $user = new User();
         $form = $this->createFormBuilder($user)
-                ->add('userName')
-                ->add('userPass', PasswordType::class)
-                ->add('confirmPass',PasswordType::class)
-                ->add('userEmail',EmailType::class)
+                ->add('userName', TextType::class,['label'=>false])
+                ->add('userPass', PasswordType::class,['label'=>false])
+                ->add('confirmPass',PasswordType::class,['label'=>false])
+                ->add('userEmail',EmailType::class,['label'=>false])
                 ->add('userPhone')
                 ->getForm();
         $form->handleRequest($request);
@@ -84,12 +85,10 @@ class RegistrationController extends AbstractController
                     $this->addFlash('failure', 'A verification email has been sent to your email');
                     */
                     return $this->redirectToRoute('login');
-                }else{
-                    $this->addFlash('failure', 'Username or Email already used');
                 }
         }
         $page = "Register";
-        return $this->render('home/register.html.twig', ['page'=>$user->getUserPass(),'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg',
+        return $this->render('home/register.html.twig', ['page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg',
             'form' => $form->createView(),
         ]);
     }

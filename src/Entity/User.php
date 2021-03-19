@@ -30,9 +30,8 @@ class User implements UserInterface
     private $userName;
 
     /**
-     * @Assert\EqualTo(propertyPath="confirmPass")
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=8, minMessage="Short Password")
+     * @Assert\Length(min=8, minMessage="Short Password,should be longer than 8 chars")
      */
     private $userPass;
 
@@ -51,7 +50,7 @@ class User implements UserInterface
     private $roles = [];
     /**
      * 
-     * @Assert\EqualTo(propertyPath="userPass")
+     * @Assert\EqualTo(propertyPath="userPass",message = "Make Sure to write the password correctly")
      */
     public $confirmPass;
     /**
