@@ -223,7 +223,7 @@ function showSlides(n) {
 </style>
 
 <div class="contt">
-        <div class="card" style="max-width:500px;width:500px;">
+        <div class="card" style="max-width:500px;width:90%">
         <h3 style="color : #03EB8E">{{stade.stadeLocation}}</h3>
         <h1>{{stade.stadeName}}{% if average != NULL %}
                         {% for i in 1 .. average %}
@@ -289,6 +289,7 @@ function showSlides(n) {
             margin-bottom:50px !important;
             margin:auto;
             height:570px;
+            font-size:12px;
             font-family:'Metropolis',sans-serif;
         }
         #calendar button{
@@ -302,11 +303,14 @@ function showSlides(n) {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           expandRows:true,
+          
           headerToolbar: {
-                center: 'dayGridMonth,timeGridWeek' // buttons for switching between views
+              start: 'title',
+                center: 'dayGridMonth,timeGridWeek', // buttons for switching between views
+                end: 'prev,next',
             },
-          start: 'title', // will normally be on the left. if RTL, will be on the right
-  end: 'today prev,next', // will normally be on the right. if RTL, will be on the left
+           // will normally be on the left. if RTL, will be on the right
+          // will normally be on the right. if RTL, will be on the left
           initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "01:30:00",locale:'fr',timeZone:'Europe/paris',
             events:{{data.date|raw}}
         });

@@ -143,7 +143,7 @@
             <span><img src="assets/person.svg"/></span>{{form_widget(form.userName,{'attr' : {'placeholder': 'UserName'}})}}</br>
             {{form_errors(form.userEmail)}}
             <span><img src="assets/email.svg"/></span>{{form_widget(form.userEmail,{'attr' : {'placeholder': 'UserEmail'}})}}</br>
-            {{form_errors(form.userPass)}}</br>{{form_errors(form.confirmPass)}}
+            {{form_errors(form.userPass)}}{{form_errors(form.confirmPass)}}
             <span><img src="assets/padlock.svg"/></span>{{form_widget(form.userPass,{'attr' : {'placeholder': 'UserPass','style':'width:100px'}})}}<span><img src="assets/padlock.svg"/></span>{{form_widget(form.confirmPass,{'attr' : {'placeholder': 'Confirm UserPass','style':'width:100px'}})}}</br>
             {{form_errors(form.userPhone)}}
             <span><img src="assets/phone-call.svg"/></span>{{form_widget(form.userPhone,{'attr' : {'placeholder': 'User Phone'}})}}</br>
