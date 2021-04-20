@@ -8,8 +8,6 @@
     <h1>Users : </h1>
     {{form(form)}}
     {% for user in users %}
-    {% if user.roles[1] is defined %}
-    {% else %}
     <div class="element">
         <div class="leftel">
         <p>{{user.id}} - </p>
@@ -22,7 +20,6 @@
         <a href="{{path('uusers',{'id':user.id})}}"><p>Update</p></a>
         </div>
     </div>
-    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}
