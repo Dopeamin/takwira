@@ -54,7 +54,7 @@
     </style>
     <div class="tobetriggered">
       <div class="contai">
-        <p>Please Confirm your Order - You will be notified when the order is accepted</p>
+        <p id="parag">Please Confirm your Order</p>
         <div class="button" id="confirmed">Yes</div>
         <div class="button" id="canceled" style="background-color:#ea7979;color:white">No</div>
       </div>
@@ -64,6 +64,7 @@
                 {{ message }}
             </div>
         {% endfor %}
+    <p style="text-align:center;margin:auto;margin-top:20px">Please Select a Case corresponding to your order in the calendar</p>
     <div id='calendar'></div>
     <script>
       var today = new Date();
@@ -91,6 +92,7 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             events:{{data.date|raw}},selectable:true,selectOverlap:false,select: function(info) {
               startDate=info.startStr;
               endDate=info.endStr;
+              var paragraph = document.getElementById("parag");
               $(".tobetriggered").fadeIn(1000);
   },validRange: {
     start: date
