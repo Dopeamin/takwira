@@ -53,7 +53,7 @@ class OrdersRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder("e");
         $qb
-            ->andWhere('e.startDate < :to AND e.endDate > :from AND e.verified = 1 AND e.Stade = :stade ')
+            ->andWhere('e.startDate < :to AND e.endDate > :from AND e.verified = true AND e.Stade = :stade ')
             ->setParameter('from', $startDate )
             ->setParameter('to', $endDate)
             ->setParameter('stade', $stade)
