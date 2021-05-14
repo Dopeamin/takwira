@@ -53,7 +53,7 @@ class StadeController extends AbstractController
         $city=$request->query->getAlpha('City', 'All');
         if($city=="All"){
             $stades = $staderepo
-            ->findAll(['stadeRating'=>'DESC']);
+            ->findAll(['stadeRating'=>'ASC']);
             
         }else{
             $stades = $staderepo
