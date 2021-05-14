@@ -236,7 +236,7 @@ function showSlides(n) {
         <div class="button" id="window_trigger"style="padding:10px;display:inline-block;color:black;margin-top:20px;">
             Order Now
         </div>
-        {% if (exists == false) %}
+        {% if (exists == false and app.user) %}
         <div class="tobe">
         <style>
           .br-theme-bars-movie .br-widget a{
@@ -256,6 +256,7 @@ function showSlides(n) {
             display:inline-block;
           }
         </style>
+
     <select id="example">
     <option value="1">Bad</option>
     <option value="2">Mediocre</option>
