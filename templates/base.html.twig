@@ -2,18 +2,66 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+        <meta name="viewport" content="user-scalable=no,width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{asset('assets/logo2.svg')}}">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/jquery-bar-rating-master/dist/themes/bars-movie.css">
+        <title>{% block title %}Takwira{% endblock %}</title>
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="{{ asset( 'main.css' )}}">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
         {% endblock %}
-
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+        <link rel="stylesheet" href="{{asset('leaflet.css')}}">
+    <script src="{{asset('vanilla-calendar-min.js')}}"></script>
     </head>
     <body>
+        {% block header %}
+        <header>
+            <div class="header">
+                <div class="header-container">
+                    <a href="#" style="margin:0px;padding:0px;width:400px"><img style="margin-left:10px;margin-top:10px;width:20%;min-width:150px;" src="{{  asset(logo)  }}"/></a>
+                    <div class="menu-big">
+                        <a href="#"><p>Home</p></a>
+                        <a href="#"><p>About us</p></a>
+                        <a href="#"><p>Contact Us</p></a>
+                        {% if not app.user %}
+                        <a style="margin-right:0px;"href="#"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        {% else %}
+                        <a style="margin-right:0px;"href="#"><p>{{ app.user.userName  }}</p></a>
+                        {% endif %}
+                    </div>
+                    <img class="menu-butt" src="{{  asset(menu)   }}" style="width:30px"/>
+                    <div class="menu-small">
+                        <div class="container">
+                            <a id="exit"><p>X</p></a>
+                            <a href="#"><p>Home</p></a>
+                            <a href="#"><p>About us</p></a>
+                            <a href="#"><p>Contact Us</p></a>
+                            {% if not app.user %}
+                        <a style="margin-right:0px;"href="#"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        {% else %}
+                        <a style="margin-right:0px;"href="#"><p>{{ app.user.userName  }}</p></a>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </header>
+        {% endblock %}
         {% block body %}{% endblock %}
+        {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{{ asset( 'main.js' )}}"></script>
+        <script src="{{ asset( 'leaflet.js' )}}"></script>
+        <script>
+            $(".alert").delay(3000).fadeOut(1000);
+        </script>
+        {% endblock %}
+        {% block footer %}
+            <footer>
+                
+                <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved - Developed By Med Amine Hamdouni , Mazen Issaoui And Samer Ben Mim</p>
+            </footer>
+        {% endblock %}
     </body>
 </html>
