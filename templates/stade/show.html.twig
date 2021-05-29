@@ -1,0 +1,37 @@
+
+
+{% block body %}
+    <style>
+     *{
+         padding:0px;
+         margin:0px;
+     }
+     #searching{
+         color:red;
+         text-decoration:none;
+         padding:100px;
+         background-color:red;
+     }
+     #form_submit{
+         display:none;
+     }
+    </style>
+    <div class="form_container">
+    {{page}}
+    {{form(form)}}
+    {% for stade in stade %} 
+        <img style="width:200px;object-fit: cover;height:190px;" src="{{asset('uploads/brochures/' ~ stade.brochureFilename)}}"/>   
+        {% if stade.stadeRating == NULL %}
+            Rating = 0
+        {% endif %}
+        {{stade.stadeName}}
+        {{stade.stadeOwner}}
+        {{stade.stadeDescription}}
+        {{stade.stadePhone}}
+        </br>
+    {% endfor %} 
+    </div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

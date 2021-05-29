@@ -1,0 +1,124 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <style>
+            .form_container{
+                display:inline-block;
+                margin:auto;
+                position:relative;
+                left:50%;
+                top:50%;
+                transform:translateX(-50%);
+                padding:20px;
+            }
+            .form_container input,textarea,button{
+                resize:none;
+                padding:10px;
+                margin-top:10px;
+                
+            }
+            input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{
+                -webkit-appearance: none;
+            }
+            .form_container button:hover{
+                cursor:pointer;
+            }
+            #maCarte{
+                height:500px;
+            }
+    </style>
+    
+    <style>
+    body{
+        background:#f7f7f7;
+    }
+    footer{
+            background-color:transparent;
+        }
+        .cardd{
+            margin:auto;
+            
+            width:300px;
+            text-align:center;
+            margin-top:50px;
+            margin-bottom:30px;
+            border-radius:2px;
+            padding:40px;
+            background-color:white;
+            border:1px solid lightgrey;
+            font-family:'Metropolis',sans-serif;
+        }
+        .cardd a{
+            position:relative;
+            padding:10px;
+            display:inline-block;
+            top:10px !important;
+            text-decoration:none;
+            color:white;
+        }
+        .cardd label{
+            text-align:left;
+            display:block;
+            margin-bottom:5px;
+            margin-top:5px;
+        }
+        .cardd input{
+            display:block;
+            padding:5px;
+            width:100%;
+        }
+        .cardd button{
+            padding:10px;
+            font-family:'Metropolis Regular',sans-serif;
+            margin-top:20px;
+            background-color:#03EB8E;
+            border:1px solid #03EB8E;
+            color:white;
+        }
+        .cardd button:hover{
+            background-color:white;
+            cursor:pointer;
+            color:#03EB8E;
+        }
+        .cardd form li{
+            background-color:#e26262;color:#3c0707;padding:4px;font-size:10px;
+        }
+        .form_container input, textarea{
+            width:90%;
+            height:300px;
+            margin-bottom:10px;
+        }
+    </style>
+    <div class="cardd">
+        <h1 style="color:#03EB8E;margin-bottom:20px;">Stadium Information</h1>
+        
+        {{form(form)}}
+    </div>
+    <div id="maCarte">
+
+        </div>
+        
+    
+{% endblock %}
+{% block footer %}
+    <script>
+            var carte = L.map('maCarte').setView([36.8190, 10.1946], 13);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZG9wZWFtaW5lIiwiYSI6ImNrbDBxY3BqNDBxZGUyb21sb2Vmbmxmd3AifQ.pPfJhtdnuRWMHgw0K4Jrog', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'your.mapbox.access.token'
+            }).addTo(carte);
+            carte.on("click",mapClickListen);
+        var marker = L.marker([36.8190, 10.1946]).addTo(carte);
+        function mapClickListen(e){
+            let pos = e.latlng;
+            document.querySelector("#form_x").value=pos.lat;
+            document.querySelector("#form_y").value=pos.lng;
+            var newLatLng = new L.LatLng(pos.lat, pos.lng);
+            marker.setLatLng(newLatLng);
+        }
+    </script>
+{% endblock %}

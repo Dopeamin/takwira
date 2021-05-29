@@ -1,0 +1,24 @@
+{% extends "stade/cpanel.html.twig" %}
+
+{% block right %}
+<style>
+    
+</style>
+<div class="right-container">
+    <h1>Comments : </h1>
+    {% for comment in comments %}
+    <div class="element">
+        <div class="leftel">
+        <p>{{comment.id}} - </p>
+        <p>user id :{{comment.user.id}} - </p>
+        <p>{{comment.user.userName}} - </p>
+        <p>{{comment.date|date("m/d/Y h:i:s")}} - </p>
+        <p>{{comment.content}}</p>
+        </div>
+        <div class="rightel">
+            <a href="{{path('dstadcomment',{'id':stade.id,'idd':comment.id})}}"><p>Delete</p></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
