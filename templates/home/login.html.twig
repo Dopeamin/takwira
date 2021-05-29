@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{page}}
+{% endblock %}
+{% block body %}
+    <style>
+        .log_container{
+            display:flex;
+            flex-wrap:wrap;
+            margin:auto;
+            max-width:1100px;
+            width:100%;
+            margin-top:100px;
+            text-align:center;
+        }
+        .log_svg img{
+            max-width:700px;
+            width:80%;
+            margin-right:-200px;
+            margin:auto;
+            margin-bottom:10px;
+        }
+        .log_svg a{
+            color:black;
+            font-family:'Metropolise Regular',sans-serif;
+            
+        }
+        .login{
+            
+            margin:auto;
+            text-align:left;
+        }
+        .login h1{
+            font-family:'Metropolis Black',sans-serif;
+            margin-bottom:60px;
+        }
+        .login input{
+            font-family:'Metropolis Regular',sans-serif;
+            border:0px;
+            border-bottom:1px solid #AFAAAA;
+            padding:10px;
+            margin-bottom:30px;
+            margin-left:-10px;
+            z-index:1;
+            padding-left:30px;
+        }
+        .login span img{
+            z-index:10;
+            width:15px;
+            position:relative;
+            left:12px;
+            top:5px;
+        }
+        .login input:focus{
+            outline:none;
+        }
+        .checkbox{
+            position:relative;
+            left:20px;
+        }
+        .login p{
+            position:relative;
+            bottom:43px;
+        }
+        .btn{
+            padding:20px;
+            padding-left:40px;
+            padding-right:40px;
+            border-radius:10px;
+            border:none;
+            background-color:#2BB07F;
+            font-family:'Metropolis',sans-serif;
+            color:white;
+            font-size:28px;
+        }
+        .btn:hover{
+            background:white;
+            color:black;
+            cursor:pointer;
+            border:1px solid black;
+        }
+        .btn2{
+            display:none;
+            padding:10px;
+            border-radius:10px;
+            margin-top:10px;
+            border:2px solid #2BB07F;
+            background:white;
+            color:#2BB07F;
+            font-family:'Metropolis',sans-serif;
+            font-size:28px;
+        }
+        .btn2:hover{
+            
+            border:2px solid #2BB07F;
+            cursor:pointer;
+            background-color:#2BB07F;
+            color:white;
+        }
+    .alert {
+    position: fixed;
+    margin: auto;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: #eb6565;
+    color: white;
+    z-index: 300;
+}
+    </style>
+    {% for message in app.flashes('failure') %}
+            <div class="alert" id="error">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% if app.user %}
+    <script>
+        window.location.replace("http://www.w3schools.com");
+    </script>
+    {% endif %}
+    <div class="log_container">
+        <div class="log_svg">
+            <img src="assets/log.svg"/></br>
+            <a href="./register">Create an account<p></a>
+        </div>
+        <div class="login">
+            <h1>
+                Log In
+            </h1>
+            <form method="POST" action="{{path('login')}}">
+            
+            <span><img src="assets/person.svg"/></span><input required type="text" name="_username" placeholder="Username"/></br>
+            <span><img src="assets/padlock.svg"/></span><input required name ="_password" type="password" placeholder="Password"/></br>
+            <input type="checkbox" class="checkbox" id="remember_me" name="_remember_me" checked/><p style="margin-left:40px;font-family:'Metropolis Regular',sans-serif">Remember me</p>
+            <button value="Log In" class="btn">Log In</button></br>
+            
+            </form>
+            <a href="{{absolute_url('register')}}"><button class="btn2">Sign Up</button></a>
+        </div>
+    </div>
+
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

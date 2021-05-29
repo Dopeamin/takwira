@@ -25,7 +25,7 @@
                         <a href="#"><p>About us</p></a>
                         <a href="#"><p>Contact Us</p></a>
                         {% if not app.user %}
-                        <a style="margin-right:0px;"href="#"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
+                        <a style="margin-right:0px;"href="{{ path('login') }}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                         {% else %}
                         <a style="margin-right:0px;"href="#"><p>{{ app.user.userName  }}</p></a>
                         {% endif %}
