@@ -1,0 +1,25 @@
+{% extends "cpanel/index.html.twig" %}
+
+{% block right %}
+<style>
+    
+</style>
+<div class="right-container">
+    <h1>Users : </h1>
+    {{form(form)}}
+    {% for user in users %}
+    <div class="element">
+        <div class="leftel">
+        <p>{{user.id}} - </p>
+        <p>{{user.Username}} - </p>
+        <p>{{user.userEmail}} - </p>
+        <p>{{user.userPhone}}</p>
+        </div>
+        <div class="rightel">
+        <a href="{{path('dusers',{'id':user.id})}}"><p>Delete</p></a>
+        <a href="{{path('uusers',{'id':user.id})}}"><p>Update</p></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

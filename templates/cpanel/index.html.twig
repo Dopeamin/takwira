@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Panel!{% endblock %}
+
+{% block body %}
+<style>
+body{
+    background:#f7f7f7;
+}
+footer{
+            background-color:transparent;
+        }
+    .cardd{
+        margin:auto;
+        display:flex;
+        margin-top:50px;
+        width:100%;
+        max-width:1000px;
+        height:auto;
+        background:white;
+        border: 1px solid lightgrey;
+        text-align:left;
+        margin-bottom:50px;
+        font-family:"Open Sans",sans-serif;
+    }
+    .left{
+        order:1;
+        width:30%;
+        border-right:1px solid lightgrey;
+        height:inherit;
+        
+    }
+    .right{
+        order:2;
+        width:70%;
+        height:100%;
+        
+    }
+    .button{
+            width:auto;
+            margin:0px;
+            padding:10px;
+            display:block;
+            background-color:white;
+            color:black;
+            text-decoration:none;
+            font-family:"Open Sans",sans-serif;
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .button:hover{
+            border:0px solid #03EB8E;
+            background-color:#fafafa;
+            color:black;
+        }
+        .active{
+            border-left:2px solid darkgrey;
+            padding:9px;
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .active:hover{
+            border-left:2px solid darkgrey;
+        }
+        .button p{
+            margin-left:20px;
+        }
+        .right-container{
+            margin-top:20px;
+            width:100%;
+            text-align:center;
+        }
+        .element{
+        width:100%;
+        border-bottom:1px solid lightgrey;
+        text-align:left;
+        height:auto;
+        padding-bottom:5px;
+        padding-top:5px;
+    }
+    .element p{
+        display:inline-block;
+    }
+    .leftel{
+        display:inline-block;
+        margin-left:10px;
+        width:70%;
+    }
+    .rightel{
+        display:inline-block;
+        float:right;
+        margin-right:10px;
+    }
+    .buttoncontainer{
+        height:100%;
+    }
+</style>
+<div class="cardd">
+    <div class="left">
+        <div class="buttoncontainer">
+            <a class="button {% if (app.request.get('_route') == 'cusers')%}active{%  endif  %}"href="{{path('cusers')}}"><p>User Manager</p></a>
+            <a class="button {% if (app.request.get('_route') == 'cstadiums')%}active{%  endif  %}" href="{{path('cstadiums')}}"><p>Stadium Manager</p></a>
+            <a class="button {% if (app.request.get('_route') == 'ccomments')%}active{%  endif  %}" href="{{path('ccomments')}}"><p>Comments Manager</p></a>
+            <a class="button {% if (app.request.get('_route') == 'corders')%}active{%  endif  %}" href="{{path('corders')}}"><p>Orders Manager</p></a>
+        </div>
+    </div>
+    <div class="right">
+        {% block right %}
+
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
