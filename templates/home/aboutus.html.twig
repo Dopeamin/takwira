@@ -1,0 +1,252 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <style>
+        .header{
+            background-color:transparent !important;
+        }
+    </style>
+    <div class="upper">
+        <div class="lgtext">
+            WHO WE ARE
+        </div>
+        
+    </div>
+    <div class="cards-container">
+            <style>
+                *{
+    padding:0px;
+    margin: 0px;
+}
+.cards-container{
+    
+    width:80%;
+    max-width:1200px;
+    margin:auto;
+    position:relative;
+    display:flex;
+    flex-flow: row wrap;
+    align-items:center;
+    justify-content:center;
+    margin-top:50px;
+    margin-bottom:100px;
+}
+.carddd{
+    z-index:2;
+    overflow: hidden;
+    position: relative;
+    width:300px !important;
+    margin:auto;
+    margin-bottom:30px;
+    height:400px !important;
+    font-family:"Montserra",sans-serif !important;
+    background-image: url("image.jpg");
+    background-position:top ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0px 0px 10px black;
+    color:#ffffff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 1s ease-in-out;
+}
+.overlay{
+    border-radius: 20px;
+    z-index:1;
+    position: absolute;
+    top:0px;
+    left:0px;
+    height:100%;
+    width:100%;
+    background-color: rgba(0, 0, 0, 0.24);
+    transition: background-color 1s ease-out;
+}
+.content{
+    position: absolute;
+    bottom:10px;
+    left:0px;
+    width:100%;
+    z-index: 2;
+    border-radius: 20px;
+    transform: translateY(0px);
+    transition: transform 1s ease-out;
+}
+.carddd:hover .content{
+    transform: translateY(-100px);
+}
+.carddd:hover .parag{
+    transform: translateY(0px);
+    opacity:1;
+}
+.carddd:hover .overlay{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.content h1{
+    padding:10px;
+    font-size: 22px;
+    font-weight: 900;
+}
+.line{
+    height:10px;
+    width:200px;
+    background-color: rgb(61, 184, 108);
+}
+.parag{
+    width:100%;
+    position: absolute;
+    opacity: 0;
+    transition:transform 1s ease-out,opacity 1s ease-out;
+    transform: translateY(20px);
+}
+.parag p{
+    padding:10px;
+    padding-top:0px;
+}
+.icons{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size:20px;
+    border-radius: 30px;
+    padding:5px;
+    margin:auto;
+    margin-top:0px;
+    width:60%;
+    flex-wrap: wrap;
+    padding:5px;
+}
+.icons i{
+    margin:10px;
+}
+.content h2{
+    margin:0px;
+    font-size:16px;
+    padding-left:10px;
+    padding-right:10px;
+    font-weight: 400;
+}
+.carddd .fa{
+    margin:auto !important;
+    background-color: rgb(61, 184, 108);
+    width:40px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    color:white;
+    text-align: center;
+    margin-right:10px;
+    margin-left:10px;
+    border-radius: 100px;
+    transition:background-color 1s ease-out,transform 1s ease-out,color;
+    transform: translateY(0px);
+}
+.carddd .fa:hover{
+    transform: translateY(-2px);
+    color: rgb(61, 184, 108);
+    background-color: white;
+}
+.side{
+    
+   
+    z-index:1;
+    position: relative;
+    box-shadow: 0px 0px 10px rgba(34, 34, 34, 0.474);
+    width:300px;
+    height:340px;
+    overflow:hidden;
+    background-color: white;
+    transition: transform 1s ease-in-out;
+    transform: translateX(-300px);
+}
+.show{
+    transform: translateX(-150px);
+}
+.btn{
+    z-index:100;
+    position: absolute;
+    top:45%;
+    right:-10px;
+    margin:auto !important;
+    background-color: rgb(61, 184, 108);
+    width:40px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    color:white;
+    text-align: center;
+    margin-right:10px;
+    margin-left:10px;
+    border-radius: 100px;
+    transition:background-color 1s ease-out,transform 1s ease-out,color;
+    transform: translateY(0px);
+}
+.sh{
+    
+    transform: translateX(-150px);
+}
+            </style>
+        
+                    <div class="carddd" id="trigger" style="background-image: url('{{ asset('assets/amin.jpg') }}');">
+                        <div class="overlay">
+                            
+                        </div>
+                        <div class="content"  style="background-color:transparent !important">
+                            <div class="line"></div>
+                            <h1>Med Amine Hamdouni</h1>
+                            <div class="parag">
+                                <h2>hamdouni.medamin@gmail.com</h2>
+                                <p>Lorem Ipsum Lorem Ipsum</p>
+                                
+                                <div class="icons">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="carddd" id="trigger">
+                        <div class="overlay">
+                            
+                        </div>
+                        <div class="content"  style="background-color:transparent !important">
+                            <div class="line"></div>
+                            <h1>Samer Ben Mim</h1>
+                            <div class="parag">
+                                <h2>samerbenmim@insat.u-carthage.tn</h2>
+                                <p>Lorem Ipsum Lorem Ipsum</p>
+                                
+                                <div class="icons">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="carddd" id="trigger">
+                        <div class="overlay">
+                            
+                        </div>
+                        <div class="content"  style="background-color:transparent !important">
+                            <div class="line"></div>
+                            <h1>Mazen Issaoui</h1>
+                            <div class="parag">
+                                <h2>mazenissaoui@insat.u-carthage.tn</h2>
+                                <p>Lorem Ipsum Lorem Ipsum</p>
+                                
+                                <div class="icons">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

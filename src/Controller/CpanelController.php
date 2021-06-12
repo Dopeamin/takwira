@@ -25,7 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class CPanelController extends AbstractController
+class CpanelController extends AbstractController
 {
     /**
      * @Route("/cpanel", name="cpanel")

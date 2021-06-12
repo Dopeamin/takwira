@@ -1,7 +1,17 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+        App\Entity\Stade:
+            algorithm: auto
+            cost: 12
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
+        in_database: 
+            entity:
+                class: App\Entity\User
+                property: userName
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,8 +19,18 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
-
+            provider: in_database
+            user_checker: App\Security\UserChecker
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: logout
+                target: home
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -21,4 +41,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: '^/cpanel', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN]}

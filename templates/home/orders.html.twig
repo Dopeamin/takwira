@@ -1,0 +1,100 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    {{page}}
+{% endblock %}
+{% block body %}
+    <style>
+    body{
+        background:#f7f7f7;
+    }
+    footer{
+            background-color:transparent;
+        }
+        .cardd{
+            margin:auto;
+            width:80%;
+            max-width:1000px;
+            text-align:center;
+            margin-top:100px;
+            margin-bottom:100px;
+            border-radius:2px;
+            padding:40px;
+            background-color:white;
+            border:1px solid lightgrey;
+            font-family:'Metropolis',sans-serif;
+        }
+        .cardd a{
+            padding:10px;
+            text-decoration:none;
+        }
+        .cardd label{
+            text-align:left;
+            display:block;
+            margin-bottom:5px;
+            margin-top:5px;
+        }
+        .cardd input{
+            display:block;
+            padding:5px;
+            width:100%;
+        }
+        .cardd button{
+            padding:10px;
+            font-family:'Metropolis Regular',sans-serif;
+            margin-top:20px;
+            background-color:#03EB8E;
+            border:1px solid #03EB8E;
+            color:white;
+        }
+        .cardd button:hover{
+            background-color:white;
+            cursor:pointer;
+            color:#03EB8E;
+        }
+        .cardd form li{
+            background-color:#e26262;color:#3c0707;padding:4px;font-size:10px;
+        }
+        
+    </style>
+    <div class="cardd">
+        <h1 style="color:#03EB8E;margin-bottom:20px;">Orders</h1>
+        <style>
+        #calendar{
+            width:80% !important;
+            min-width:300px;
+            margin-top:100px !important;
+            margin-bottom:50px !important;
+            margin:auto;
+            font-size:12px;
+            font-family:'Metropolis',sans-serif;
+        }
+        #calendar button{
+            background-color:lightgreen;
+        }
+    </style>
+    <div id='calendar'></div>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+          
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            height: 600,
+            expandRows:true,
+          start: 'title', // will normally be on the left. if RTL, will be on the right
+            headerToolbar: {
+                center: 'dayGridMonth,timeGridWeek' // buttons for switching between views
+            },
+  end: 'today prev,next', // will normally be on the right. if RTL, will be on the left
+          initialView: 'timeGridWeek',allDaySlot: false,slotMinTime: "08:00:00",slotMaxTime: "18:00:00",slotDuration: "01:30:00",locale:'fr',timeZone:'Europe/paris',
+            events:{{data.date|raw}}
+        });
+        calendar.render();
+      });
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js" integrity="sha256-rPPF6R+AH/Gilj2aC00ZAuB2EKmnEjXlEWx5MkAp7bw=" crossorigin="anonymous"></script>
+
+    </div>
+    
+{% endblock %}

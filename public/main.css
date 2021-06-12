@@ -513,3 +513,18 @@ li {
         width: 50px;
     }
 }
+.upper{
+    width:100%;
+    background-image: url("assets/backk.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.lgtext{
+    font-family: "Montserrat",sans-serif;
+    font-weight: 900;
+    width:90%;
+    color:white;
+    text-align: left;
+    margin:auto;
+    font-size:20vw;
+}

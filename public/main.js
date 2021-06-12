@@ -35,7 +35,7 @@ $(document).ready(function() {
             $(".log_svg").show();
             $(".btn2").hide();
         }
-        if ($(window).width() <= 800) {
+        if ($(window).width() <= 1000) {
 
             $(".menu-big").hide();
             $(".menu-butt").show();
