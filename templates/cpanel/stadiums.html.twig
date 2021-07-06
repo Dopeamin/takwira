@@ -7,21 +7,37 @@
 <div class="right-container">
     <h1>Stadiums : </h1>
     {{form(form)}}
-    <a class="button" href="{{path('stadiumsAdd')}}"><p>Add</p></a>
+    <a class="button add" href="{{path('stadiumsAdd')}}"><p>Add</p></a>
+    <table>
+        <tr>
+                <td><h2>ID</h2></td>
+                <td><h2>Stade</h2></td>
+                <td><h2>Owner</h2></td>
+                <td><h2>Numero</h2></td>
+                <td><h2></h2></td>
+            </tr>
     {% for stade in stades %}
     
-    <div class="element">
-        <div class="leftel">
-        <p>{{stade.id}} - </p>
-        <p>{{stade.stadeName}} - </p>
-        <p>{{stade.stadeOwner}} - </p>
+    
+    <tr>   
+        <td>
+        <p>{{stade.id}} </p>
+        </td>
+        <td>
+        <p>{{stade.stadeName}} </p>
+        </td>
+        <td>
+        <p>{{stade.stadeOwner}} </p>
+        </td>
+        <td>
         <p>{{stade.stadePhone}}</p>
-        </div>
-        <div class="rightel">
-            <a href="{{path('dstades',{'id':stade.id})}}"><p>Delete</p></a>
-            <a href="{{path('ustades',{'id':stade.id})}}"><p>Update</p></a>
-        </div>
-    </div>
+        </td>
+        <td>
+            <a href="{{path('dstades',{'id':stade.id})}}" class="btnn delete"><p>Delete</p></a>
+           <a href="{{path('ustades',{'id':stade.id})}}" class="btnn"><p>Update</p></a>
+        </td>
+    </tr>
     {% endfor %}
+    </table>
 </div>
 {% endblock %}

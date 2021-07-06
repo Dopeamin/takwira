@@ -52,7 +52,7 @@ body {
     background-color: white;
     width: 100%;
     height: auto;
-    overflow-x: hidden;
+    overflow-x: show !important;
 }
 
 header {
@@ -512,4 +512,55 @@ li {
     100% {
         width: 50px;
     }
+}
+.btnn{
+    background-color: rgb(82, 155, 82);
+    padding:6px;
+    color:white !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+    transition: background-color 0.5s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none !important;
+}
+.delete{
+    background-color: rgb(223, 106, 106);
+}
+.btnn:hover{
+    background-color: rgb(199, 199, 199);
+}
+.add{
+    width:100px !important;
+    padding: 10px !important;
+    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+    margin:auto !important;
+    background-color: orange !important;
+    margin-top:20px !important;
+    margin-bottom:20px !important;
+    cursor: pointer;
+}
+.add p{
+    margin:0px !important;
+}
+.pagination span{
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin:3px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    width:fit-content;
+    padding:10px;
+}
+.pagination{
+    margin-top:20px;
+    
+    width: 200px !important;;
+}
+.pagination a{
+    
+    padding:0px !important;
+    margin: auto;
 }

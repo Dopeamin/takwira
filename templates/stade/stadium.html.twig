@@ -292,12 +292,23 @@ function showSlides(n) {
             height:570px;
             font-size:12px;
             font-family:'Metropolis',sans-serif;
+            overflow-x:scroll;
+        }
+        .fc-view{
+          min-width:1000px !important;
+        }
+        .fc-toolbar{
+            position:sticky;
+            left:0px;
+            top:0px;
         }
         #calendar button{
             background-color:lightgreen;
         }
     </style>
+    <div class="calendar-container">
     <div id='calendar'></div>
+    <div>
     <script>
 
       document.addEventListener('DOMContentLoaded', function() {

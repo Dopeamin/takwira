@@ -7,19 +7,29 @@
 <div class="right-container">
     <h1>Comments : </h1>
     {{form(form)}}
+    <table>
+        <tr>
+                <td><h2>ID</h2></td>
+                <td><h2>ID Utilisateur</h2></td>
+                <td><h2>Nom Utilisateur</h2></td>
+                <td><h2>Temps</h2></td>
+                <td><h2>Contenu</h2></td>
+                <td><h2></h2></td>
+            </tr>
     {% for comment in comments %}
-    <div class="element">
-        <div class="leftel">
-        <p>{{comment.id}} - </p>
-        <p>user id :{{comment.user.id}} - </p>
-        <p>{{comment.user.userName}} - </p>
-        <p>{{comment.date|date("m/d/Y h:i:s")}} - </p>
-        <p>{{comment.content}}</p>
-        </div>
-        <div class="rightel">
-            <a href="{{path('dcomment',{'id':comment.id})}}"><p>Delete</p></a>
-        </div>
-    </div>
+    <tr>
+        
+        <td><p>{{comment.id}} - </p></td>
+        <td><p>user id :{{comment.user.id}} - </p></td>
+        <td><p>{{comment.user.userName}} - </p></td>
+        <td><p>{{comment.date|date("m/d/Y h:i:s")}} - </p></td>
+        <td><p>{{comment.content}}</p>
+        </td>
+        <td>
+            <a href="{{path('dcomment',{'id':comment.id})}}" class="btnn delete"><p>Delete</p></a>
+        </td>
+    </tr>
     {% endfor %}
+    </table>
 </div>
 {% endblock %}

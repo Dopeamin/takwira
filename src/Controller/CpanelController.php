@@ -45,8 +45,8 @@ class CpanelController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $users = $userrepo->findAll();
         $form = $this->createFormBuilder()
-                ->add("Search",TextType::Class,['required'   => false])
-                ->add("Submit",SubmitType::Class)
+                ->add("Search",TextType::Class,['required'   => false,'attr'=>['class'=>'search inline','placeholder'=>'Search By Id'],'label'=>FALSE])
+                ->add("Submit",SubmitType::Class,['attr'=>['class'=>'btnn inline']])
                 ->getForm();
         $form->handleRequest($request);
         
@@ -111,8 +111,8 @@ class CpanelController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $stades = $staderepo->findAll();
         $form = $this->createFormBuilder()
-                ->add("Search",TextType::Class,['required'   => false])
-                ->add("Submit",SubmitType::Class)
+                ->add("Search",TextType::Class,['required'   => false,'attr'=>['class'=>'search inline','placeholder'=>'Search By Id'],'label'=>FALSE])
+                ->add("Submit",SubmitType::Class,['attr'=>['class'=>'btnn inline']])
                 ->getForm();
         $form->handleRequest($request);
         
@@ -287,8 +287,8 @@ class CpanelController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $orders = $ordersrepo->findAll();
         $form = $this->createFormBuilder()
-                ->add("Search",TextType::Class,['required'   => false])
-                ->add("Submit",SubmitType::Class)
+                ->add("Search",TextType::Class,['required'   => false,'attr'=>['class'=>'search inline','placeholder'=>'Search By Id'],'label'=>FALSE])
+                ->add("Submit",SubmitType::Class,['attr'=>['class'=>'btnn inline']])
                 ->getForm();
         $form->handleRequest($request);
         
@@ -337,8 +337,8 @@ class CpanelController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $comments = $commentsrepo->findAll();
         $form = $this->createFormBuilder()
-                ->add("Search",TextType::Class,['required'   => false])
-                ->add("Submit",SubmitType::Class)
+                ->add("Search",TextType::Class,['required'   => false,'attr'=>['class'=>'search inline','placeholder'=>'Search By Id'],'label'=>FALSE])
+                ->add("Submit",SubmitType::Class,['attr'=>['class'=>'btnn inline']])
                 ->getForm();
         $form->handleRequest($request);
         

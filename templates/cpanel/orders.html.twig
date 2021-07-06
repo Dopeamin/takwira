@@ -7,26 +7,28 @@
 <div class="right-container">
     <h1>Orders : </h1>
     {{form(form)}}
+    <table>
+        <tr>
+                <td><h2>ID</h2></td>
+                <td><h2>Start Time</h2></td>
+                <td><h2>End Time</h2></td>
+                <td><h2>Stade</h2></td>
+                <td><h2>Utilisateur</h2></td>
+                <td><h2></h2></td>
+            </tr>
     {% for order in orders %}
-    
-    <div class="element">
-        <div class="leftel">
-        <p>{{order.id}} - </p>
-        <p>{{order.startDate|date("m/d/Y h:i:s")}} - </p>
-        <p>{{order.endDate|date("m/d/Y h:i:s")}} - </p>
-        <p>{{order.stade.stadeName}} - </p>
-        <p>{{order.user.userName}} - </p>
-        {% if order.verified %}
-        <p>Verified</p>
-        {% else %}
-        <p>Not Verified</p>
-        {% endif %}
-        </div>
-        <div class="rightel">
-            {% if order.verified == false %}<a href="{{path('verifyOrder',{'id':order.id})}}"><p>Verify</p></a>{%  endif  %}
-            <a href="{{path('dorders',{'id':order.id})}}"><p>Delete</p></a>
-        </div>
-    </div>
+    <tr>
+        <td><p>{{order.id}}</p></td>
+        <td><p>{{order.startDate|date("m/d/Y h:i")}}</p></td>
+        <td><p>{{order.endDate|date("m/d/Y h:i")}}</p></td>
+        <td><p>{{order.stade.stadeName}}</p></td>
+        <td><p>{{order.user.userName}}</p>
+        </td>
+        <td>
+            <a href="{{path('dorders',{'id':order.id})}}" class="btnn delete"><p>Delete</p></a>
+        </td>
+    </tr>
     {% endfor %}
+    </table>
 </div>
 {% endblock %}

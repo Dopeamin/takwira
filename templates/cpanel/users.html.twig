@@ -7,19 +7,26 @@
 <div class="right-container">
     <h1>Users : </h1>
     {{form(form)}}
+    <table>
+    <tr>
+                <td><h2>ID</h2></td>
+                <td><h2>Username</h2></td>
+                <td><h2>Email</h2></td>
+                <td><h2>Numero</h2></td>
+                <td><h2></h2></td>
+    </tr>
     {% for user in users %}
-    <div class="element">
-        <div class="leftel">
-        <p>{{user.id}} - </p>
-        <p>{{user.Username}} - </p>
-        <p>{{user.userEmail}} - </p>
-        <p>{{user.userPhone}}</p>
-        </div>
-        <div class="rightel">
-        <a href="{{path('dusers',{'id':user.id})}}"><p>Delete</p></a>
-        <a href="{{path('uusers',{'id':user.id})}}"><p>Update</p></a>
-        </div>
-    </div>
+    <tr>
+        <td><p>{{user.id}} </p></td>
+        <td><p>{{user.Username}}</p></td>
+        <td><p>{{user.userEmail}}</p></td>
+        <td><p>{{user.userPhone}}</p></td>
+        <td>
+        <a href="{{path('dusers',{'id':user.id})}}" class="btnn delete"><p>Delete</p></a>
+        <a href="{{path('uusers',{'id':user.id})}}" class="btnn"><p>Update</p></a>
+        </td>
+    </tr>
     {% endfor %}
+    </table>
 </div>
 {% endblock %}

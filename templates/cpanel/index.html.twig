@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Control Panel!{% endblock %}
-
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset( 'table.css' )}}">
+{% endblock %}
 {% block body %}
 <style>
 body{
