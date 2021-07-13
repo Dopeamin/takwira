@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
@@ -47,12 +48,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function login(): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $this->denyAccessUnlessGranted("IS_ANONYMOUS");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $page="Log In";
         return $this->render('home/login.html.twig',[
-            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg'
+            'page'=>$page,'logo'=>'assets/loogo.png','menu'=>'assets/menu2.svg','error' => $error
         ]);
     }
     /**

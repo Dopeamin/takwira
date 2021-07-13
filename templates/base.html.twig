@@ -6,6 +6,9 @@
         <link rel="icon" href="{{asset('assets/logo2.svg')}}">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
         <link rel="stylesheet" href="/jquery-bar-rating-master/dist/themes/bars-movie.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <title>{% block title %}Takwira{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset( 'main.css' )}}">
@@ -21,9 +24,7 @@
                 <div class="header-container">
                     <a href="{{url('stadiums')}}" style="margin:0px;padding:0px;width:400px"><img style="margin-left:10px;margin-top:10px;width:20%;min-width:150px;" src="{{  asset(logo)  }}"/></a>
                     <div class="menu-big">
-                        <a href="{{url('stadiums')}}"><p>Home</p></a>
-                        <a href="{{url('home')}}"><p>About us</p></a>
-                        <a href="#"><p>Contact Us</p></a>
+                        <a href="{{url('stadiums')}}"><p>Stades</p></a>
                         {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                         {% else %}
@@ -34,9 +35,7 @@
                     <div class="menu-small">
                         <div class="container">
                             <a id="exit"><p>X</p></a>
-                            <a href="{{url('stadiums')}}"><p>Home</p></a>
-                            <a href="{{url('home')}}"><p>About us</p></a>
-                            <a href="#"><p>Contact Us</p></a>
+                            <a href="{{url('stadiums')}}"><p>Stades</p></a>
                             {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                         {% else %}

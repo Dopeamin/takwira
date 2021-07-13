@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{page}}
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset( 'newlogin.css' )}}">
+{% endblock %}
+{% block header %}
+    <div class="header">
+        <div class="header-container">
+            <div class="left">
+                <img src="{{  asset(logo)  }}"/>
+            </div>
+            <div class="right">
+                <a href="#">Stades</a>
+                <a href="#"><div class="btn small"><h3>Make an account</h3></div></a>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="landing" style="background-image:url({{asset('assets/landing.jpg')}})">
+        <div class="container">
+            <div class="content">
+                <h1>It's never been easier to play football</h1>
+                <div class="btn">
+                    <h3>Start now</h3>
+                </div>
+                <div class="footer">
+                <h3>become a partner</h3>
+                <i class="fas fa-arrow-circle-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}{% endblock %}

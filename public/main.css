@@ -564,3 +564,11 @@ li {
     padding:0px !important;
     margin: auto;
 }
+.error{
+    padding:10px;
+    background-color: rgba(197, 124, 124, 0.863);
+    border:1px solid #a22e2e;
+    color:#a22e2e;
+    width:fit-content;
+    margin:auto;
+}

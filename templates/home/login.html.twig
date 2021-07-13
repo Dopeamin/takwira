@@ -110,11 +110,9 @@
     z-index: 300;
 }
     </style>
-    {% for message in app.flashes('failure') %}
-            <div class="alert" id="error">
-                {{ message }}
-            </div>
-        {% endfor %}
+    {% if error %}
+        <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
     {% if app.user %}
     <script>
         window.location.replace("http://www.w3schools.com");
