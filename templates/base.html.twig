@@ -25,8 +25,6 @@
                     <div class="menu-big">
                         <a href="{{url('home')}}"><p>Home</p></a>
                         <a href="{{url('stadiums')}}"><p>Stadiums</p></a>
-                        <a href="{{url('aboutus')}}"><p>About us</p></a>
-                        <a href="#"><p>Contact Us</p></a>
                         {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                         {% else %}
@@ -39,8 +37,6 @@
                             <a id="exit"><p>X</p></a>
                             <a href="{{url('home')}}"><p>Home</p></a>
                             <a href="{{url('stadiums')}}"><p>Stadiums</p></a>
-                            <a href="{{url('aboutus')}}"><p>About us</p></a>
-                            <a href="#"><p>Contact Us</p></a>
                             {% if not app.user %}
                         <a style="margin-right:0px;"href="{{url('login')}}"><p class="button" style="padding:10px;padding-left:30px;padding-right:30px;margin-top:-10px;border-radius:20px;box-shadow:0 3px 6px #00000050;">Login</p></a>
                         {% else %}
@@ -64,7 +60,7 @@
         {% block footer %}
             <footer>
                 
-                <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved - Developed By Med Amine Hamdouni , Mazen Issaoui And Samer Ben Mim</p>
+                <p style="font-family:'Metropolis Regular',sans-serif;color:#4F4F4F;display:block;margin:auto;text-align:center;font-size:14px;margin-bottom:10px">2021 © All rights Reserved - Developed By Med Amine Hamdouni</p>
             </footer>
         {% endblock %}
     </body>

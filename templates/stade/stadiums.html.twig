@@ -184,6 +184,8 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
 }
 </script>
+    {% if featured.brochureFilename is defined %}
+    
     <div class="banner" style="background-image:none">
         <div class="slideshow-container">
         <div class="mySlides fade" style="display:block">
@@ -208,6 +210,7 @@ function showSlides(n) {
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="nextt" onclick="plusSlides(1)">&#10095;</a>
     </div>
+    {% endif %}
     <div class="stad-container">
         <div class="stad-cont">
             <div class="buttons">
