@@ -10,6 +10,7 @@
 
 ###< symfony/framework-bundle ###
 .env
+.env.test
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
